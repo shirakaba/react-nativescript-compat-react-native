@@ -1,6 +1,6 @@
 /**
  * Code below here ported to React NativeScript from React Native's RNTester app, whose licence is stored in this folder as React_Native_LICENCE.txt:
- * https://github.com/facebook/react-native/blob/master/RNTester/js/RNTesterExampleList.js
+ * https://github.com/facebook/react-native/blob/3945f10561622a3e361190919d0a6d397f67ef8b/RNTester/js/components/RNTesterExampleList.js
  * ... which carries the following copyright:
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -29,16 +29,23 @@ import {
     RCTPage,
 } from "react-nativescript/dist/index";
 import { Color } from "tns-core-modules/color/color";
+import { FontWeight } from "tns-core-modules/ui/enums/enums";
+import * as RNTesterActions from "../utils/RNTesterActions";
+import { RNTesterExampleAction, RNTesterListAction, RNTesterAction } from "../utils/RNTesterActions";
+import RNTesterExampleFilter from "./RNTesterExampleFilter";
+import { ContentView } from "react-nativescript/dist/client/ElementRegistry";
 
 class RowComponent extends React.PureComponent<
     {
+        // Not clear what the actual schema is. May just be 'any'.
         item: {
+            key?: string,
             module: {
                 title: string,
                 description: string,
             }
         },
-        onNavigate: () => void,
+        onNavigate: (action: RNTesterAction) => void,
         onPress?: () => void,
         onShowUnderlay?: () => void,
         onHideUnderlay?: () => void,
@@ -49,7 +56,7 @@ class RowComponent extends React.PureComponent<
           this.props.onPress();
           return;
         }
-        // this.props.onNavigate(RNSTesterActions.ExampleAction(this.props.item.key));
+        this.props.onNavigate(RNTesterActions.ExampleAction(this.props.item.key));
     };
 
     render() {
@@ -71,9 +78,9 @@ const renderSectionHeader = ({section}) => (
     <RCTLabel style={styles.sectionHeader}>{section.title}</RCTLabel>
 );
 
-export class RNTesterExampleList extends React.Component<
+class RNTesterExampleList extends React.Component<
     {
-        onNavigate: () => void,
+        onNavigate: (action: RNTesterAction) => void,
         list: {
             // ComponentExamples: RNTesterExample[],
             ComponentExamples: any[],
@@ -91,6 +98,7 @@ export class RNTesterExampleList extends React.Component<
         filterRegex.test(example.module.title)
         // && (!Platform.isTV || example.supportsTVOS);
 
+        // TODO: support sections
         const sections = [
             {
                 data: this.props.list.ComponentExamples,
@@ -112,7 +120,40 @@ export class RNTesterExampleList extends React.Component<
                 }}
                 >
                 {this._renderTitleRow()}
-                {/* TODO: RNTesterExampleFilter */}
+                <RNTesterExampleFilter
+                    testID="explorer_search"
+                    sections={sections}
+                    filter={filter}
+                    render={({filteredSections}) => (
+                        <RCTListView
+                            style={styles.list}
+                            items={this.props.list.ComponentExamples.concat(this.props.list.APIExamples)}
+                            cellFactory={(item: any, container: ContentView) => {
+                                return this._renderItem({
+                                    item,
+                                    // separators: {
+                                    //     highlight: () => {},
+                                    //     unhighlight: () => {},
+                                    // }
+                                });
+                            }}
+                        />
+                        // TODO: support sectioned list
+                        // <SectionList
+                        //     ItemSeparatorComponent={ItemSeparator}
+                        //     contentContainerStyle={styles.sectionListContentContainer}
+                        //     style={styles.list}
+                        //     sections={filteredSections}
+                        //     renderItem={this._renderItem}
+                        //     enableEmptySections={true}
+                        //     itemShouldUpdate={this._itemShouldUpdate}
+                        //     keyboardShouldPersistTaps="handled"
+                        //     automaticallyAdjustContentInsets={false}
+                        //     keyboardDismissMode="on-drag"
+                        //     renderSectionHeader={renderSectionHeader}
+                        // />
+                    )}
+                />
             </RCTContentView>
         );
     }
@@ -121,12 +162,15 @@ export class RNTesterExampleList extends React.Component<
         return curr.item !== prev.item;
     }
 
-    _renderItem = ({item, separators}) => (
+    _renderItem = ({
+        item,
+        // separators
+    }) => (
         <RowComponent
             item={item}
             onNavigate={this.props.onNavigate}
-            onShowUnderlay={separators.highlight}
-            onHideUnderlay={separators.unhighlight}
+            // onShowUnderlay={separators.highlight}
+            // onHideUnderlay={separators.unhighlight}
         />
     );
 
@@ -144,28 +188,30 @@ export class RNTesterExampleList extends React.Component<
                 }}
                 onNavigate={this.props.onNavigate}
                 onPress={() => {
-                    // this.props.onNavigate(RNTesterActions.ExampleList());
+                    this.props.onNavigate(RNTesterActions.ExampleList());
                 }}
             />
         );
     }
 
     _handleRowPress(exampleKey: string): void {
-        // this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));
+        this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));
     }
 }
 
 const styles = {
     listContainer: {
-        flex: 1,
+        // flex: 1,
+        width: { value: 100, unit: "%" as "%" },
+        height: { value: 100, unit: "%" as "%" },
     },
     list: {
-        backgroundColor: '#eeeeee',
+        backgroundColor: new Color('#eeeeee'),
     },
     sectionHeader: {
         backgroundColor: new Color('#eeeeee'),
         padding: 5,
-        // fontWeight: '500',
+        fontWeight: FontWeight.medium,
         fontSize: 11,
     },
     row: {
@@ -176,11 +222,13 @@ const styles = {
     },
     separator: {
         // height: StyleSheet.hairlineWidth,
+        height: 1,
         backgroundColor: '#bbbbbb',
         marginLeft: 15,
     },
     separatorHighlighted: {
         // height: StyleSheet.hairlineWidth,
+        height: 1,
         backgroundColor: 'rgb(217, 217, 217)',
     },
     sectionListContentContainer: {
@@ -188,7 +236,7 @@ const styles = {
     },
     rowTitleText: {
         fontSize: 17,
-        // fontWeight: 500, // FIXME
+        fontWeight: FontWeight.medium
     },
     rowDetailText: {
         fontSize: 15,
@@ -196,3 +244,5 @@ const styles = {
         lineHeight: 20,
     },
 }
+
+module.exports = RNTesterExampleList;

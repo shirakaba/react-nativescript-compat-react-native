@@ -78,7 +78,7 @@ const renderSectionHeader = ({section}) => (
     <RCTLabel style={styles.sectionHeader}>{section.title}</RCTLabel>
 );
 
-class RNTesterExampleList extends React.Component<
+export default class RNTesterExampleList extends React.Component<
     {
         onNavigate: (action: RNTesterAction) => void,
         list: {
@@ -244,5 +244,3 @@ const styles = {
         lineHeight: 20,
     },
 }
-
-module.exports = RNTesterExampleList;

@@ -1,95 +1,126 @@
 /**
+ * Code below here ported to React NativeScript from React Native's RNTester app, whose licence is stored in this folder as React_Native_LICENCE.txt:
+ * https://github.com/facebook/react-native/blob/3945f10561622a3e361190919d0a6d397f67ef8b/RNTester/js/RNTesterApp.ios.js
+ * ... which carries the following copyright:
+ * 
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
- * @format
- * @flow
  */
 
-'use strict';
-
+// TODO: port the Android version of RNTesterApp too and split this file up by platform.
 import * as React from "react";
 import RNTesterExampleList from "./components/RNTesterExampleList";
 import RNTesterExampleContainer from "./components/RNTesterExampleContainer";
 import RNTesterNavigationReducer from "./utils/RNTesterNavigationReducer";
 import URIActionMap from "./utils/URIActionMap";
-const RNTesterList = require('./utils/RNTesterList.ios');
-
-/*
-
-const {
-  AppRegistry,
-  AsyncStorage,
-  BackHandler,
-  Button,
-  Linking,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  YellowBox,
-} = require('react-native');
-
-const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
-
+const RNTesterList = require('./utils/RNTesterList.ios').RNTesterList;
 // import type {RNTesterExample} from './types/RNTesterTypes';
 import { Back, ExampleAction, ExampleList, RNTesterAction } from './utils/RNTesterActions';
 import {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
+
+import {
+  RCTButton,
+  RCTContentView,
+  RCTTextView,
+  RCTTextField,
+  RCTLabel,
+  RCTImage,
+  // StylePropContents,
+  RCTDockLayout,
+  RCTAbsoluteLayout,
+  RCTStackLayout,
+  RCTFlexboxLayout,
+  RCTGridLayout,
+  RCTListView,
+  RCTActionBar,
+  RCTTabView,
+  RCTTabViewItem,
+  RCTPage,
+} from "react-nativescript/dist/index";
+import { Color } from "tns-core-modules/color/color";
+import { FontWeight } from "tns-core-modules/ui/enums/enums";
+import { isAndroid } from "tns-core-modules/platform/platform";
+import * as application from "tns-core-modules/application/application";
+import { AndroidApplication, AndroidActivityBackPressedEventData } from "tns-core-modules/application/application";
+import * as appSettings from "tns-core-modules/application-settings";
+
+// const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 
 type Props = {
   exampleFromAppetizeParams: string,
 };
 
-YellowBox.ignoreWarnings([
-  'Module RCTImagePickerManager requires main queue setup',
-]);
+// YellowBox.ignoreWarnings([
+//   'Module RCTImagePickerManager requires main queue setup',
+// ]);
 
-const APP_STATE_KEY = 'RNTesterAppState.v2';
+const APP_STATE_KEY: string = 'RNTesterAppState.v2';
 
-const Header = ({onBack, title}: {onBack?: () => mixed, title: string}) => (
-  <SafeAreaView style={styles.headerContainer}>
-    <View style={styles.header}>
-      <View style={styles.headerCenter}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
+const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => (
+  <RCTStackLayout style={styles.headerContainer}>
+    <RCTStackLayout style={styles.header}>
+      <RCTContentView style={styles.headerCenter}>
+        <RCTLabel style={styles.title}>{title}</RCTLabel>
+      </RCTContentView>
       {onBack && (
-        <View style={styles.headerLeft}>
-          <Button title="Back" onPress={onBack} />
-        </View>
+        <RCTContentView style={styles.headerLeft}>
+          <RCTButton text="Back" onTap={onBack} />
+        </RCTContentView>
       )}
-    </View>
-  </SafeAreaView>
+    </RCTStackLayout>
+  </RCTStackLayout>
 );
 
-class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
-  _mounted: boolean;
+export class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
+  private _mounted: boolean;
 
   UNSAFE_componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this._handleBack);
+    /* https://stackoverflow.com/questions/40603588/nativescript-handling-back-button-event#41278886 */
+    if(isAndroid){
+      application.android.on(
+        AndroidApplication.activityBackPressedEvent,
+        (data: AndroidActivityBackPressedEventData) => {
+          this._handleBack();
+        }
+      );
+    }
   }
 
   componentDidMount() {
     this._mounted = true;
-    Linking.getInitialURL().then(url => {
-      AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-        if (!this._mounted) {
-          return;
-        }
-        const exampleAction = URIActionMap(
-          this.props.exampleFromAppetizeParams,
-        );
-        const urlAction = URIActionMap(url);
-        const launchAction = exampleAction || urlAction;
-        const initialAction = launchAction || {type: 'InitialAction'};
-        this.setState(RNTesterNavigationReducer(undefined, initialAction));
-      });
-    });
 
-    Linking.addEventListener('url', url => {
-      this._handleAction(URIActionMap(url));
-    });
+    console.log(`Reading app state.`);
+    const lastSavedAppState: any = appSettings.getString(APP_STATE_KEY, "{}");
+    console.log(`Last saved app state is:`, JSON.parse(lastSavedAppState));
+
+    /* TODO. Let's avoid thinking about deep-linking for now. */
+    // Linking.getInitialURL().then(url => {
+    //   AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
+    //     if (!this._mounted) {
+    //       return;
+    //     }
+    //     const exampleAction = URIActionMap(
+    //       this.props.exampleFromAppetizeParams,
+    //     );
+    //     const urlAction = URIActionMap(url);
+    //     const launchAction = exampleAction || urlAction;
+    //     const initialAction = launchAction || {type: 'InitialAction'};
+    //     this.setState(RNTesterNavigationReducer(undefined, initialAction));
+    //   });
+    // });
+
+    // Linking.addEventListener('url', url => {
+    //   this._handleAction(URIActionMap(url));
+    // });
+
+    const exampleAction: RNTesterAction|null = URIActionMap(
+      this.props.exampleFromAppetizeParams,
+    );
+
+    const initialAction = exampleAction || {type: 'InitialAction'};
+    this.setState(RNTesterNavigationReducer(undefined, initialAction));
   }
 
   componentWillUnmount() {
@@ -106,99 +137,109 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     }
     const newState = RNTesterNavigationReducer(this.state, action);
     if (this.state !== newState) {
-      this.setState(newState, () =>
-        AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
-      );
+      this.setState(newState, () => {
+        console.log(`Persisting app state.`);
+        // appSettings.setString(APP_STATE_KEY, JSON.stringify(this.state));
+      });
     }
   };
 
   render() {
+    console.log(`[RNTesterApp] render().`);
     if (!this.state) {
+      console.log(`[RNTesterApp] render(). this.state falsy, so returning null.`);
       return null;
     }
     if (this.state.openExample) {
       const Component = RNTesterList.Modules[this.state.openExample];
       if (Component && Component.external) {
+        console.log(`[RNTesterApp] render(). this.state.openExample: ${this.state.openExample} (got component)`);
         return <Component onExampleExit={this._handleBack} />;
       } else {
+        console.log(`[RNTesterApp] render(). this.state.openExample: ${this.state.openExample} (didn't get a component)`);
         return (
-          <View style={styles.exampleContainer}>
+          <RCTStackLayout style={styles.exampleContainer}>
             <Header onBack={this._handleBack} title={Component.title} />
             <RNTesterExampleContainer module={Component} />
-          </View>
+          </RCTStackLayout>
         );
       }
     }
+    console.log(`[RNTesterApp] render(). this.state truthy yet this.state.openExample falsy.`);
     return (
-      <View style={styles.exampleContainer}>
+      <RCTStackLayout style={styles.exampleContainer}>
         <Header title="RNTester" />
         <RNTesterExampleList
           onNavigate={this._handleAction}
           list={RNTesterList}
         />
-      </View>
+      </RCTStackLayout>
     );
   }
 }
 
 const styles = {
   headerContainer: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#96969A',
-    backgroundColor: '#F5F5F6',
+    borderBottomWidth: 1,
+    // borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: new Color('#96969A'),
+    backgroundColor: new Color('#F5F5F6'),
   },
   header: {
     height: 40,
-    flexDirection: 'row',
+    flexDirection: 'row' as 'row',
   },
   headerLeft: {},
   headerCenter: {
     flex: 1,
-    position: 'absolute',
+    position: 'absolute' as 'absolute',
     top: 7,
     left: 0,
     right: 0,
-    alignItems: 'center',
+    alignItems: 'center' as 'center',
   },
   title: {
     fontSize: 19,
-    fontWeight: '600',
-    textAlign: 'center',
+    fontWeight: FontWeight.semiBold,
+    textAlign: 'center' as 'center',
   },
   exampleContainer: {
-    flex: 1,
+    // flex: 1,
+    width: { value: 100, unit: "%" as "%" },
+    height: { value: 100, unit: "%" as "%" },
   },
 };
 
-AppRegistry.registerComponent('SetPropertiesExampleApp', () =>
-  require('./examples/SetPropertiesExample/SetPropertiesExampleApp'),
-);
-AppRegistry.registerComponent('RootViewSizeFlexibilityExampleApp', () =>
-  require('./examples/RootViewSizeFlexibilityExample/RootViewSizeFlexibilityExampleApp'),
-);
-AppRegistry.registerComponent('RNTesterApp', () => RNTesterApp);
+/* I think that registering all these components are only necessary for setting up
+ * 'snapshot tests' which sounds like the app enters at a different entrypoint.
+ * Not high on my wish-list to implement. */
+// AppRegistry.registerComponent('SetPropertiesExampleApp', () =>
+//   require('./examples/SetPropertiesExample/SetPropertiesExampleApp'),
+// );
+// AppRegistry.registerComponent('RootViewSizeFlexibilityExampleApp', () =>
+//   require('./examples/RootViewSizeFlexibilityExample/RootViewSizeFlexibilityExampleApp'),
+// );
+// AppRegistry.registerComponent('RNTesterApp', () => RNTesterApp);
 
-// Register suitable examples for snapshot tests
-RNTesterList.ComponentExamples.concat(RNTesterList.APIExamples).forEach(
-  (Example: RNTesterExample) => {
-    const ExampleModule = Example.module;
-    if (ExampleModule.displayName) {
-      class Snapshotter extends React.Component<{}> {
-        render() {
-          return (
-            <SnapshotViewIOS>
-              <RNTesterExampleContainer module={ExampleModule} />
-            </SnapshotViewIOS>
-          );
-        }
-      }
+/* Register suitable examples for snapshot tests */
+// RNTesterList.ComponentExamples.concat(RNTesterList.APIExamples).forEach(
+//   (Example: RNTesterExample) => {
+//     const ExampleModule = Example.module;
+//     if (ExampleModule.displayName) {
+//       class Snapshotter extends React.Component<{}> {
+//         render() {
+//           return (
+//             <SnapshotViewIOS>
+//               <RNTesterExampleContainer module={ExampleModule} />
+//             </SnapshotViewIOS>
+//           );
+//         }
+//       }
 
-      AppRegistry.registerComponent(
-        ExampleModule.displayName,
-        () => Snapshotter,
-      );
-    }
-  },
-);
-
-module.exports = RNTesterApp;
+//       AppRegistry.registerComponent(
+//         ExampleModule.displayName,
+//         () => Snapshotter,
+//       );
+//     }
+//   },
+// );

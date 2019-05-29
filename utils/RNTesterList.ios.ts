@@ -22,11 +22,11 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     module: require('../examples/ART/ARTExample'),
 //     supportsTVOS: true,
 //   },
-//   {
-//     key: 'ButtonExample',
-//     module: require('../examples/Button/ButtonExample'),
-//     supportsTVOS: true,
-//   },
+  {
+    key: 'ButtonExample',
+    module: require('../examples/Button/ButtonExample'),
+    supportsTVOS: true,
+  },
 //   {
 //     key: 'DatePickerIOSExample',
 //     module: require('../examples/DatePicker/DatePickerIOSExample'),
@@ -137,11 +137,11 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     module: require('../examples/Switch/SwitchExample'),
 //     supportsTVOS: false,
 //   },
-//   {
-//     key: 'TextExample',
-//     module: require('../examples/Text/TextExample.ios'),
-//     supportsTVOS: true,
-//   },
+  // {
+  //   key: 'TextExample',
+  //   module: require('../examples/Text/TextExample.ios'),
+  //   supportsTVOS: true,
+  // },
 //   {
 //     key: 'TextInputExample',
 //     module: require('../examples/TextInput/TextInputExample.ios'),
@@ -330,13 +330,12 @@ const APIExamples: Array<RNTesterExample> = [
 const Modules = {};
 
 APIExamples.concat(ComponentExamples).forEach(Example => {
+  console.log(`Iterating example: ${Example.key}. Its module:`, Example.module);
   Modules[Example.key] = Example.module;
 });
 
-const RNTesterList = {
+export const RNTesterList = {
   APIExamples,
   ComponentExamples,
   Modules,
 };
-
-export default RNTesterList;

@@ -9,7 +9,7 @@
  */
 
 // $FlowFixMe : This is a platform-forked component, and flow seems to only run on iOS?
-const RNTesterList = require('./RNTesterList');
+const RNTesterList = require('./RNTesterList').RNTesterList;
 
 export type RNTesterNavigationState = {
   openExample?: string,
@@ -35,6 +35,7 @@ export default function RNTesterNavigationReducer(
 
   if (action.type === 'RNTesterExampleAction') {
     // Make sure we see the module before returning the new state
+    console.log(`[RNTesterNavigationReducer.RNTesterExampleAction] examining RNTesterList.Modules[${action.openExample}]`);
     const ExampleModule = RNTesterList.Modules[action.openExample];
 
     if (ExampleModule) {

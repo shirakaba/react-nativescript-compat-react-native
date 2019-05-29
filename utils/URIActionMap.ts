@@ -8,13 +8,14 @@
 import { alert, AlertOptions } from "tns-core-modules/ui/dialogs";
 import { ExampleAction, RNTesterAction } from "./RNTesterActions";
 // $FlowFixMe : This is a platform-forked component, and flow seems to only run on iOS?
-const RNTesterList = require('./RNTesterList');
+const RNTesterList = require('./RNTesterList').RNTesterList;
 
 function PathActionMap(path: string): RNTesterAction|undefined {
   // Warning! Hacky parsing for example code. Use a library for this!
   const exampleParts = path.split('/example/');
   const exampleKey = exampleParts[1];
   if (exampleKey) {
+    console.log(`[URIActionMap.PathActionMap] examining RNTesterList.Modules["${exampleKey}"] out of:`, RNTesterList.Modules);
     if (!RNTesterList.Modules[exampleKey]) {
       alert(`${exampleKey} example could not be found!`);
       return null;
@@ -24,7 +25,7 @@ function PathActionMap(path: string): RNTesterAction|undefined {
   return null;
 }
 
-export default function URIActionMap(uri?: string): RNTesterAction|undefined {
+export default function URIActionMap(uri?: string): RNTesterAction|null {
   if (!uri) {
     return null;
   }

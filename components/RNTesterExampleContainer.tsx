@@ -14,7 +14,7 @@ import RNTesterPage from "./RNTesterPage";
 
 export default class RNTesterExampleContainer extends React.Component<
     {
-        title: string,
+        title?: string,
         module: {
             examples: any[]
         }

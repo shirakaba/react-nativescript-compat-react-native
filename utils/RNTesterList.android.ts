@@ -16,10 +16,10 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     key: 'ActivityIndicatorExample',
 //     module: require('../examples/ActivityIndicator/ActivityIndicatorExample'),
 //   },
-//   {
-//     key: 'ButtonExample',
-//     module: require('../examples/Button/ButtonExample'),
-//   },
+  {
+    key: 'ButtonExample',
+    module: require('../examples/Button/ButtonExample'),
+  },
 //   {
 //     key: 'CheckBoxExample',
 //     module: require('../examples/CheckBox/CheckBoxExample'),
@@ -237,10 +237,8 @@ APIExamples.concat(ComponentExamples).forEach(Example => {
   Modules[Example.key] = Example.module;
 });
 
-const RNTesterList = {
+export const RNTesterList = {
   APIExamples,
   ComponentExamples,
   Modules,
 };
-  
-export default RNTesterList;

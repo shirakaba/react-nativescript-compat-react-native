@@ -73,10 +73,10 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
     }));
 
     return (
-      <RCTContentView style={styles.container}>
+      <RCTStackLayout style={styles.container}>
         {this._renderTextInput()}
         {this.props.render({filteredSections})}
-      </RCTContentView>
+      </RCTStackLayout>
     );
   }
 
@@ -124,8 +124,8 @@ const styles = {
     height: { value: 35, unit: "px" as "px" },
   },
   container: {
-    // flex: 1,
-    width: { value: 100, unit: "%" as "%" },
-    height: { value: 100, unit: "%" as "%" },
+    flexGrow: 1,
+    // width: { value: 100, unit: "%" as "%" },
+    // height: { value: 100, unit: "%" as "%" },
   },
 };

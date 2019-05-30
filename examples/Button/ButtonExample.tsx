@@ -35,12 +35,12 @@ function onButtonTap(buttonName) {
   alert(`${buttonName} has been tapped!`);
 }
 
-exports.displayName = 'ButtonExample';
-exports.framework = 'React';
-exports.title = '<Button>';
-exports.description = 'Simple React Native button component.';
+export const displayName: string = 'ButtonExample';
+export const framework: string = 'React';
+export const title: string = '<Button>';
+export const description: string = 'Simple React Native button component.';
 
-exports.examples = [
+export const examples: { title: string, description: string, render: () => any }[] = [
   {
     title: 'Simple Button',
     description:

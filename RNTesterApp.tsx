@@ -61,13 +61,13 @@ const APP_STATE_KEY: string = 'RNTesterAppState.v2';
 const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => (
   <RCTStackLayout style={styles.headerContainer}>
     <RCTStackLayout style={styles.header}>
-      <RCTContentView style={styles.headerCenter}>
+      <RCTStackLayout style={styles.headerCenter}>
         <RCTLabel style={styles.title}>{title}</RCTLabel>
-      </RCTContentView>
+      </RCTStackLayout>
       {onBack && (
-        <RCTContentView style={styles.headerLeft}>
+        <RCTStackLayout style={styles.headerLeft}>
           <RCTButton text="Back" onTap={onBack} />
-        </RCTContentView>
+        </RCTStackLayout>
       )}
     </RCTStackLayout>
   </RCTStackLayout>
@@ -91,9 +91,9 @@ export class RNTesterApp extends React.Component<Props, RNTesterNavigationState>
   componentDidMount() {
     this._mounted = true;
 
-    console.log(`Reading app state.`);
+    console.log(`[RNTesterApp.tsx] Reading app state.`);
     const lastSavedAppState: any = appSettings.getString(APP_STATE_KEY, "{}");
-    console.log(`Last saved app state is:`, JSON.parse(lastSavedAppState));
+    console.log(`[RNTesterApp.tsx] Last saved app state is:`, JSON.parse(lastSavedAppState));
 
     /* TODO. Let's avoid thinking about deep-linking for now. */
     // Linking.getInitialURL().then(url => {
@@ -120,6 +120,7 @@ export class RNTesterApp extends React.Component<Props, RNTesterNavigationState>
     );
 
     const initialAction = exampleAction || {type: 'InitialAction'};
+    console.log(`[RNTesterApp.tsx] Firing action ${JSON.stringify(initialAction)} on reducer.`);
     this.setState(RNTesterNavigationReducer(undefined, initialAction));
   }
 
@@ -158,40 +159,45 @@ export class RNTesterApp extends React.Component<Props, RNTesterNavigationState>
       } else {
         console.log(`[RNTesterApp] render(). this.state.openExample: ${this.state.openExample} (didn't get a component)`);
         return (
-          <RCTStackLayout style={styles.exampleContainer}>
+          <RCTFlexboxLayout style={styles.exampleContainer}>
             <Header onBack={this._handleBack} title={Component.title} />
             <RNTesterExampleContainer module={Component} />
-          </RCTStackLayout>
+          </RCTFlexboxLayout>
         );
       }
     }
-    console.log(`[RNTesterApp] render(). this.state truthy yet this.state.openExample falsy.`);
+    console.log(`[RNTesterApp] render(). this.state truthy yet this.state.openExample falsy, so opening example list.`);
     return (
-      <RCTStackLayout style={styles.exampleContainer}>
+      <RCTFlexboxLayout style={styles.exampleContainer}>
         <Header title="RNTester" />
         <RNTesterExampleList
           onNavigate={this._handleAction}
           list={RNTesterList}
         />
-      </RCTStackLayout>
+      </RCTFlexboxLayout>
     );
   }
 }
 
 const styles = {
   headerContainer: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     borderBottomWidth: 1,
     // borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: new Color('#96969A'),
     backgroundColor: new Color('#F5F5F6'),
   },
   header: {
+    flexGrow: 1,
     height: 40,
     flexDirection: 'row' as 'row',
   },
-  headerLeft: {},
+  headerLeft: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
+  },
   headerCenter: {
-    flex: 1,
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
+    flexGrow: 1,
     position: 'absolute' as 'absolute',
     top: 7,
     left: 0,
@@ -204,9 +210,10 @@ const styles = {
     textAlign: 'center' as 'center',
   },
   exampleContainer: {
-    // flex: 1,
-    width: { value: 100, unit: "%" as "%" },
-    height: { value: 100, unit: "%" as "%" },
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
+    flexGrow: 1, /* Turned off, relative to RN. */
+    // width: { value: 100, unit: "%" as "%" },
+    // height: { value: 100, unit: "%" as "%" },
   },
 };
 

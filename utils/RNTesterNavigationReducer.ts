@@ -19,6 +19,7 @@ export default function RNTesterNavigationReducer(
   state: RNTesterNavigationState|undefined|null|false,
   action: any,
 ): RNTesterNavigationState {
+  console.log(`[RNTesterNavigationReducer.RNTesterExampleAction] entered reducer.`);
   if (
     // Default value is to see example list
     !state ||
@@ -27,6 +28,7 @@ export default function RNTesterNavigationReducer(
     // Handle requests to go back to the list when an example is open
     (state.openExample && action.type === 'RNTesterBackAction')
   ) {
+    console.log(`[RNTesterNavigationReducer.RNTesterExampleAction] Returning null.`);
     return {
       // A null openExample will cause the views to display the RNTester example list
       openExample: null,

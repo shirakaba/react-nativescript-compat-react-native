@@ -9,7 +9,7 @@
 
 // import type {RNTesterExample} from '../types/RNTesterTypes';
 
-type RNTesterExample = any;
+type RNTesterExample = { key: string, module: any, supportsTVOS?: boolean };
 
 const ComponentExamples: Array<RNTesterExample> = [
 //   {

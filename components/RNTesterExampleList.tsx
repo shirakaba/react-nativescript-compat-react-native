@@ -44,6 +44,7 @@ class RowComponent extends React.PureComponent<
             module: {
                 title: string,
                 description: string,
+                supportsTVOS?: boolean
             }
         },
         onNavigate: (action: RNTesterAction) => void,
@@ -63,14 +64,16 @@ class RowComponent extends React.PureComponent<
     render() {
         const { item } = this.props;
 
+        console.log(`[RNTesterExampleList.RowComponent] render() with item from module ${item.module} entitled: ${item.module.title}`);
+
         return (
-            <RCTContentView
+            <RCTFlexboxLayout
                 style={styles.row}
                 onTap={this._onPress}
             >
                 <RCTLabel style={styles.rowTitleText}>{item.module.title}</RCTLabel>
                 <RCTLabel style={styles.rowDetailText}>{item.module.description}</RCTLabel>
-            </RCTContentView>
+            </RCTFlexboxLayout>
         )
     }
 }
@@ -95,6 +98,8 @@ export default class RNTesterExampleList extends React.Component<
 >
 {
     render(){
+        console.log(`[RNTesterExampleList.RNTesterExampleList] render().`);
+
         const filter = ({example, filterRegex}) =>
         filterRegex.test(example.module.title)
         // && (!Platform.isTV || example.supportsTVOS);
@@ -114,7 +119,7 @@ export default class RNTesterExampleList extends React.Component<
         ];
 
         return (
-            <RCTContentView
+            <RCTFlexboxLayout
                 style={{
                     ...styles.listContainer,
                     ...this.props.style,
@@ -129,7 +134,9 @@ export default class RNTesterExampleList extends React.Component<
                         <RCTListView
                             style={styles.list}
                             items={this.props.list.ComponentExamples.concat(this.props.list.APIExamples)}
-                            cellFactory={(item: any, container: ContentView) => {
+                            cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, container: ContentView) => {
+                                console.log(`[RNTesterExampleList.RNTesterExampleList.RCTListView] rendering item with key: ${item.key} and module: ${item.module}`);
+
                                 return this._renderItem({
                                     item,
                                     // separators: {
@@ -155,7 +162,7 @@ export default class RNTesterExampleList extends React.Component<
                         // />
                     )}
                 />
-            </RCTContentView>
+            </RCTFlexboxLayout>
         );
     }
 
@@ -166,14 +173,17 @@ export default class RNTesterExampleList extends React.Component<
     _renderItem = ({
         item,
         // separators
-    }) => (
-        <RowComponent
-            item={item}
-            onNavigate={this.props.onNavigate}
-            // onShowUnderlay={separators.highlight}
-            // onHideUnderlay={separators.unhighlight}
-        />
-    );
+    }) => {
+        
+        return (
+            <RowComponent
+                item={item}
+                onNavigate={this.props.onNavigate}
+                // onShowUnderlay={separators.highlight}
+                // onHideUnderlay={separators.unhighlight}
+            />
+        );
+    };
 
     _renderTitleRow(): React.ReactElement<any> {
         if(!this.props.displayTitleRow){
@@ -202,9 +212,10 @@ export default class RNTesterExampleList extends React.Component<
 
 const styles = {
     listContainer: {
-        // flex: 1,
-        width: { value: 100, unit: "%" as "%" },
-        height: { value: 100, unit: "%" as "%" },
+        flexGrow: 1,
+
+        // width: { value: 100, unit: "%" as "%" },
+        // height: { value: 100, unit: "%" as "%" },
     },
     list: {
         backgroundColor: new Color('#eeeeee'),
@@ -216,6 +227,10 @@ const styles = {
         fontSize: 11,
     },
     row: {
+        flexDirection: 'column' as 'column', /* RN defaults to column. */
+        flexGrow: 1, // NOTE: Not specified by RN
+        // width: { value: 100, unit: "%" as "%" },
+        // height: { value: 100, unit: "%" as "%" },
         backgroundColor: new Color('white'),
         justifyContent: 'center' as 'center',
         paddingHorizontal: 15,

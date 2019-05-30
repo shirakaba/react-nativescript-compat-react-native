@@ -42,6 +42,8 @@ export default class RNTesterExampleContainer extends React.Component<
   }
 
   render(): React.ReactElement<any> {
+    console.log(`[RNTesterExampleContainer] render(). module.examples length was ${this.props.module.examples.length}.`);
+    
     if (this.props.module.examples.length === 1) {
       return (
         <RNTesterPage title={this.props.title}>

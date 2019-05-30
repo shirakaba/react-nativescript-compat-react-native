@@ -58,7 +58,11 @@ class RowComponent extends React.PureComponent<
           this.props.onPress();
           return;
         }
-        this.props.onNavigate(RNTesterActions.ExampleAction(this.props.item.key));
+        const action = RNTesterActions.ExampleAction(this.props.item.key);
+
+        console.log(`[RNTesterExampleList.RowComponent] Triggering onNavigate(${JSON.stringify(action)}).`);
+
+        this.props.onNavigate(action);
     };
 
     render() {

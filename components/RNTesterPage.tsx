@@ -35,38 +35,47 @@ type Props = Readonly<{
 
 export default class RNTesterPage extends React.Component<Props> {
   render() {
-    let ContentWrapper;
-    let wrapperProps = {};
-    if (this.props.noScroll) {
-      ContentWrapper = RCTStackLayout;
-    } else {
-      // FIXME: not sure if ScrollView can have multiple children
-      ContentWrapper = RCTScrollView;
-    // TODO
-    //   wrapperProps.automaticallyAdjustContentInsets = !this.props.title;
-    //   wrapperProps.keyboardShouldPersistTaps = 'handled';
-    //   wrapperProps.keyboardDismissMode = 'interactive';
-    }
     const title = this.props.title ? (
       <RNTesterTitle title={this.props.title} />
-    ) : null;
-    const spacer = this.props.noSpacer ? null : <RCTContentView style={styles.spacer} />;
-    return (
-      <RCTStackLayout style={styles.container}>
-        {title}
-        <ContentWrapper style={styles.wrapper} {...wrapperProps}>
+      ) : null;
+      const spacer = this.props.noSpacer ? null : <RCTContentView style={styles.spacer} />;
+
+      const ToLayout = (
+        <RCTFlexboxLayout style={styles.wrapper}>
           {this.props.children}
           {spacer}
-        </ContentWrapper>
-      </RCTStackLayout>
+        </RCTFlexboxLayout>
+      );
+
+      return (
+      <RCTFlexboxLayout style={styles.container}>
+        {title}
+        {
+          (
+            this.props.noScroll ?
+              ToLayout :
+              (
+                <RCTScrollView
+                  // TODO
+                  // automaticallyAdjustContentInsets = !this.props.title;
+                  // keyboardShouldPersistTaps = 'handled';
+                  // keyboardDismissMode = 'interactive';
+                >
+                  {ToLayout}
+                </RCTScrollView>
+              )
+          )
+        }
+      </RCTFlexboxLayout>
     );
   }
 }
 
 const styles = {
   container: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     backgroundColor: new Color('#e9eaed'),
-    // flex: 1,
+    flexGrow: 1,
     width: { value: 100, unit: "%" as "%" },
     height: { value: 100, unit: "%" as "%" },
   },
@@ -74,7 +83,8 @@ const styles = {
     height: 270,
   },
   wrapper: {
-    flex: 1,
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
+    flexGrow: 1,
     paddingTop: 10,
   },
 };

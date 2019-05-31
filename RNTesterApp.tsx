@@ -188,7 +188,7 @@ const styles = {
     backgroundColor: new Color('#F5F5F6'),
   },
   header: {
-    flexGrow: 1,
+    // flexGrow: 1,
     height: 40,
     flexDirection: 'row' as 'row',
   },

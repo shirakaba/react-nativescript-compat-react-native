@@ -59,6 +59,7 @@ export default class RNTesterBlock extends React.Component<Props, State> {
 
 const styles = {
   container: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     borderRadius: 3,
     borderWidth: 0.5,
     borderColor: new Color('#d6d7da'),
@@ -68,6 +69,7 @@ const styles = {
     overflow: 'hidden',
   },
   titleContainer: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     borderBottomWidth: 0.5,
     borderTopLeftRadius: 3,
     borderTopRightRadius: 2.5,
@@ -84,6 +86,7 @@ const styles = {
     fontSize: 14,
   },
   children: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     margin: 10,
   },
 };

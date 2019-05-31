@@ -85,7 +85,7 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
       return null;
     }
     return (
-      <RCTContentView style={styles.searchRow}>
+      <RCTStackLayout style={styles.searchRow}>
         <RCTTextView
           autocapitalizationType={"none"}
           autocorrect={false}
@@ -104,13 +104,14 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
         //   testID={this.props.testID}
           text={this.state.filter}
         />
-      </RCTContentView>
+      </RCTStackLayout>
     );
   }
 }
 
 const styles = {
   searchRow: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     backgroundColor: new Color('#eeeeee'),
     padding: 10,
   },

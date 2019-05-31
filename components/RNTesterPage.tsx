@@ -76,8 +76,8 @@ const styles = {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
     backgroundColor: new Color('#e9eaed'),
     flexGrow: 1,
-    width: { value: 100, unit: "%" as "%" },
-    height: { value: 100, unit: "%" as "%" },
+    // width: { value: 100, unit: "%" as "%" },
+    // height: { value: 100, unit: "%" as "%" },
   },
   spacer: {
     height: 270,

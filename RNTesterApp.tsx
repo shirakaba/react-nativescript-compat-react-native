@@ -58,20 +58,28 @@ type Props = {
 
 const APP_STATE_KEY: string = 'RNTesterAppState.v2';
 
-const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => (
-  <RCTStackLayout style={styles.headerContainer}>
-    <RCTStackLayout style={styles.header}>
-      <RCTStackLayout style={styles.headerCenter}>
-        <RCTLabel style={styles.title}>{title}</RCTLabel>
-      </RCTStackLayout>
-      {onBack && (
-        <RCTStackLayout style={styles.headerLeft}>
-          <RCTButton text="Back" onTap={onBack} />
+const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => {
+  console.log(`[RNTesterApp.Header] render() with title ${title} and onBack: ${onBack}`);
+  return (
+    // This outermost one is intended to be the SafeAreaView.
+    <RCTStackLayout style={styles.headerContainer}>
+      <RCTStackLayout style={styles.header}>
+        <RCTStackLayout style={styles.headerCenter}>
+          <RCTLabel style={styles.title}>{title}</RCTLabel>
         </RCTStackLayout>
-      )}
+        {onBack ? (
+          <RCTStackLayout style={styles.headerLeft}>
+            <RCTButton text="Back" onTap={onBack} />
+          </RCTStackLayout>
+        ) : (
+          <RCTStackLayout style={styles.headerLeft}>
+            <RCTButton text="Unavailable" />
+          </RCTStackLayout>
+        )}
+      </RCTStackLayout>
     </RCTStackLayout>
-  </RCTStackLayout>
-);
+  );
+};
 
 export class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   private _mounted: boolean;
@@ -158,6 +166,7 @@ export class RNTesterApp extends React.Component<Props, RNTesterNavigationState>
         return <Component onExampleExit={this._handleBack} />;
       } else {
         console.log(`[RNTesterApp] render(). this.state.openExample: ${this.state.openExample} (didn't get a component)`);
+        // Takes this route
         return (
           <RCTFlexboxLayout style={styles.exampleContainer}>
             <Header onBack={this._handleBack} title={Component.title} />

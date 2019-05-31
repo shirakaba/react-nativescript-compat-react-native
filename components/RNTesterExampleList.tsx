@@ -141,6 +141,8 @@ export default class RNTesterExampleList extends React.Component<
                             cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, container: ContentView) => {
                                 console.log(`[RNTesterExampleList.RNTesterExampleList.RCTListView] rendering item with key: ${item.key} and module: ${item.module}`);
 
+                                container.backgroundColor = styles.sectionListContentContainer.backgroundColor;
+
                                 return this._renderItem({
                                     item,
                                     // separators: {
@@ -216,6 +218,7 @@ export default class RNTesterExampleList extends React.Component<
 
 const styles = {
     listContainer: {
+        flexDirection: 'column' as 'column', /* RN defaults to column. */
         flexGrow: 1,
     },
     list: {
@@ -229,7 +232,6 @@ const styles = {
     },
     row: {
         flexDirection: 'column' as 'column', /* RN defaults to column. */
-        // flexGrow: 1, // NOTE: Not specified by RN
         backgroundColor: new Color('white'),
         justifyContent: 'center' as 'center',
         paddingHorizontal: 15,

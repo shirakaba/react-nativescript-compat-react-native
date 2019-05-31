@@ -33,6 +33,7 @@ export default class RNTesterTitle extends React.Component<{ title: string }> {
 
 const styles = {
   container: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: new Color('#d6d7da'),

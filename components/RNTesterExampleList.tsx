@@ -76,7 +76,7 @@ class RowComponent extends React.PureComponent<
                 onTap={this._onPress}
             >
                 <RCTLabel style={styles.rowTitleText}>{item.module.title}</RCTLabel>
-                <RCTLabel style={styles.rowDetailText}>{item.module.description}</RCTLabel>
+                <RCTTextView style={styles.rowDetailText}>{item.module.description}</RCTTextView>
             </RCTFlexboxLayout>
         )
     }
@@ -217,9 +217,6 @@ export default class RNTesterExampleList extends React.Component<
 const styles = {
     listContainer: {
         flexGrow: 1,
-
-        // width: { value: 100, unit: "%" as "%" },
-        // height: { value: 100, unit: "%" as "%" },
     },
     list: {
         backgroundColor: new Color('#eeeeee'),
@@ -232,9 +229,7 @@ const styles = {
     },
     row: {
         flexDirection: 'column' as 'column', /* RN defaults to column. */
-        flexGrow: 1, // NOTE: Not specified by RN
-        // width: { value: 100, unit: "%" as "%" },
-        // height: { value: 100, unit: "%" as "%" },
+        // flexGrow: 1, // NOTE: Not specified by RN
         backgroundColor: new Color('white'),
         justifyContent: 'center' as 'center',
         paddingHorizontal: 15,

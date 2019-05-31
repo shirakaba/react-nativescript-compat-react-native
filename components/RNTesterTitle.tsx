@@ -24,9 +24,9 @@ import { FontWeight } from "tns-core-modules/ui/enums/enums";
 export default class RNTesterTitle extends React.Component<{ title: string }> {
   render() {
     return (
-      <RCTContentView style={styles.container}>
+      <RCTFlexboxLayout style={styles.container}>
         <RCTLabel style={styles.text}>{this.props.title}</RCTLabel>
-      </RCTContentView>
+      </RCTFlexboxLayout>
     );
   }
 }

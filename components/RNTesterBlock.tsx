@@ -39,20 +39,20 @@ export default class RNTesterBlock extends React.Component<Props, State> {
 
   render() {
     const description = this.props.description ? (
-      <RCTLabel style={styles.descriptionText}>{this.props.description}</RCTLabel>
+      <RCTTextView style={styles.descriptionText}>{this.props.description}</RCTTextView>
     ) : null;
 
     return (
       // TODO: Could probably collapse the ContentView down to the StackLayout
-      <RCTContentView style={styles.container}>
-        <RCTStackLayout>
-          <RCTContentView style={styles.titleContainer}>
-            <RCTLabel style={styles.titleText}>{this.props.title}</RCTLabel>
-            {description}
-          </RCTContentView>
-          <RCTContentView style={styles.children}>{this.props.children}</RCTContentView>
+      <RCTStackLayout style={styles.container}>
+        <RCTStackLayout style={styles.titleContainer}>
+          <RCTLabel style={styles.titleText}>{this.props.title}</RCTLabel>
+          {description}
         </RCTStackLayout>
-      </RCTContentView>
+        <RCTStackLayout style={styles.children}>
+          {this.props.children}
+        </RCTStackLayout>
+      </RCTStackLayout>
     );
   }
 }

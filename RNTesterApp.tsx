@@ -211,7 +211,7 @@ const styles = {
   },
   exampleContainer: {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
-    flexGrow: 1, /* Turned off, relative to RN. */
+    flexGrow: 1,
     // width: { value: 100, unit: "%" as "%" },
     // height: { value: 100, unit: "%" as "%" },
   },

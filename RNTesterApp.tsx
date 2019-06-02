@@ -62,22 +62,23 @@ const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => {
   console.log(`[RNTesterApp.Header] render() with title ${title} and onBack: ${onBack}`);
   return (
     // This outermost one is intended to be the SafeAreaView.
-    <RCTStackLayout style={styles.headerContainer}>
-      <RCTStackLayout style={styles.header}>
-        <RCTStackLayout style={styles.headerCenter}>
-          <RCTLabel style={styles.title}>{title}</RCTLabel>
-        </RCTStackLayout>
+    <RCTFlexboxLayout style={styles.headerContainer}>
+      <RCTFlexboxLayout style={styles.header}>
         {onBack ? (
-          <RCTStackLayout style={styles.headerLeft}>
-            <RCTButton text="Back" onTap={onBack} />
-          </RCTStackLayout>
+          <RCTFlexboxLayout style={styles.headerLeft}>
+            <RCTButton className={""} text="Back" onTap={onBack} />
+          </RCTFlexboxLayout>
         ) : (
-          <RCTStackLayout style={styles.headerLeft}>
-            <RCTButton text="Unavailable" />
-          </RCTStackLayout>
+          null
+          // <RCTFlexboxLayout style={styles.headerLeft}>
+          //   <RCTButton className={""} text="Unavailable" />
+          // </RCTFlexboxLayout>
         )}
-      </RCTStackLayout>
-    </RCTStackLayout>
+        <RCTFlexboxLayout style={styles.headerCenter}>
+          <RCTLabel style={styles.title}>{title}</RCTLabel>
+        </RCTFlexboxLayout>
+      </RCTFlexboxLayout>
+    </RCTFlexboxLayout>
   );
 };
 
@@ -208,9 +209,10 @@ const styles = {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
     flexGrow: 1,
     position: 'absolute' as 'absolute',
-    top: 7,
-    left: 0,
-    right: 0,
+    paddingTop: 7,
+    // top: 7,
+    // left: 0,
+    // right: 0,
     alignItems: 'center' as 'center',
   },
   title: {

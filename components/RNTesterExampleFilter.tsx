@@ -73,10 +73,10 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
     }));
 
     return (
-      <RCTStackLayout style={styles.container}>
+      <RCTFlexboxLayout style={styles.container}>
         {this._renderTextInput()}
         {this.props.render({filteredSections})}
-      </RCTStackLayout>
+      </RCTFlexboxLayout>
     );
   }
 
@@ -85,7 +85,7 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
       return null;
     }
     return (
-      <RCTStackLayout style={styles.searchRow}>
+      <RCTFlexboxLayout style={styles.searchRow}>
         <RCTTextView
           autocapitalizationType={"none"}
           autocorrect={false}
@@ -104,7 +104,7 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
         //   testID={this.props.testID}
           text={this.state.filter}
         />
-      </RCTStackLayout>
+      </RCTFlexboxLayout>
     );
   }
 }
@@ -125,8 +125,7 @@ const styles = {
     height: { value: 35, unit: "px" as "px" },
   },
   container: {
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
     flexGrow: 1,
-    // width: { value: 100, unit: "%" as "%" },
-    // height: { value: 100, unit: "%" as "%" },
   },
 };

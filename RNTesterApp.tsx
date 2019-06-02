@@ -45,6 +45,7 @@ import { isAndroid } from "tns-core-modules/platform/platform";
 import * as application from "tns-core-modules/application/application";
 import { AndroidApplication, AndroidActivityBackPressedEventData } from "tns-core-modules/application/application";
 import * as appSettings from "tns-core-modules/application-settings";
+import { PercentLength } from "tns-core-modules/ui/styling/style-properties";
 
 // const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 
@@ -58,12 +59,12 @@ type Props = {
 
 const APP_STATE_KEY: string = 'RNTesterAppState.v2';
 
-const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => {
+const Header = ({ onBack, title, height }: { onBack?: () => any, title: string, height: PercentLength }) => {
   console.log(`[RNTesterApp.Header] render() with title ${title} and onBack: ${onBack}`);
   return (
     // This outermost one is intended to be the SafeAreaView.
     <RCTFlexboxLayout style={styles.headerContainer}>
-      <RCTFlexboxLayout style={styles.header}>
+      <RCTFlexboxLayout style={styles.header} height={height}>
         {onBack ? (
           <RCTFlexboxLayout style={styles.headerLeft}>
             <RCTButton className={""} text="Back" onTap={onBack} />
@@ -170,7 +171,9 @@ export class RNTesterApp extends React.Component<Props, RNTesterNavigationState>
         // Takes this route
         return (
           <RCTFlexboxLayout style={styles.exampleContainer}>
-            <Header onBack={this._handleBack} title={Component.title} />
+            {/* Have debugged for a very long time but can't figure out why height needs doubling; there must be a hidden
+              * extra <Header> that is failing to be removed; maybe the fault of the Host Config. */}
+            <Header onBack={this._handleBack} title={Component.title} height={{ value: 80 * 2, unit: "px" }} />
             <RNTesterExampleContainer module={Component} />
           </RCTFlexboxLayout>
         );
@@ -179,7 +182,7 @@ export class RNTesterApp extends React.Component<Props, RNTesterNavigationState>
     console.log(`[RNTesterApp] render(). this.state truthy yet this.state.openExample falsy, so opening example list.`);
     return (
       <RCTFlexboxLayout style={styles.exampleContainer}>
-        <Header title="RNTester" />
+        <Header title="RNTester" height={{ value: 80, unit: "px"}} />
         <RNTesterExampleList
           onNavigate={this._handleAction}
           list={RNTesterList}
@@ -198,7 +201,8 @@ const styles = {
     backgroundColor: new Color('#F5F5F6'),
   },
   header: {
-    height: 40,
+    /* I've boosted this from 40 to 80 provisionally. */
+    // height: { value: 80, unit: "px" as "px" },
     flexDirection: 'row' as 'row',
   },
   headerLeft: {

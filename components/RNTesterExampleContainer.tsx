@@ -11,6 +11,9 @@ import { device, Device } from "tns-core-modules/platform/platform";
 import RNTesterExampleFilter from "./RNTesterExampleFilter";
 import RNTesterBlock from "./RNTesterBlock";
 import RNTesterPage from "./RNTesterPage";
+import { RCTFlexboxLayout, RCTScrollView } from "react-nativescript";
+import { Color } from "tns-core-modules/color/color";
+import RNTesterTitle from "./RNTesterTitle";
 
 export default class RNTesterExampleContainer extends React.Component<
     {
@@ -43,6 +46,7 @@ export default class RNTesterExampleContainer extends React.Component<
 
   render(): React.ReactElement<any> {
     console.log(`[RNTesterExampleContainer] render(). module.examples length was ${this.props.module.examples.length}.`);
+
     
     if (this.props.module.examples.length === 1) {
       return (
@@ -51,9 +55,9 @@ export default class RNTesterExampleContainer extends React.Component<
         </RNTesterPage>
       );
     }
-
+    
     const filter = ({example, filterRegex}) => filterRegex.test(example.title);
-
+    
     const sections = [
       {
         data: this.props.module.examples,
@@ -61,6 +65,26 @@ export default class RNTesterExampleContainer extends React.Component<
         key: 'e',
       },
     ];
+    
+    /* This is effectively what is being returned */
+    // return (
+    //   <RCTFlexboxLayout backgroundColor={new Color("green")} flexDirection={"column"} flexGrow={1}>
+    //     <RNTesterTitle title={"stand-in"} />
+    //     <RCTScrollView backgroundColor={new Color("red")}>
+    //       <RCTFlexboxLayout backgroundColor={new Color("orange")} flexDirection={"column"} flexGrow={1} paddingTop={10}>
+    //         <RNTesterExampleFilter
+    //           testID="example_search"
+    //           sections={sections}
+    //           filter={filter}
+    //           render={({filteredSections}) =>
+    //             filteredSections[0].data.map(this.renderExample)
+    //           }
+    //         />
+    //         <RCTFlexboxLayout flexDirection={"column"} height={{ value: 270, unit: "px" as "px" }} />
+    //       </RCTFlexboxLayout>
+    //     </RCTScrollView>
+    //   </RCTFlexboxLayout>
+    // );
 
     return (
       <RNTesterPage title={this.props.title}>

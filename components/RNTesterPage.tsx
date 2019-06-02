@@ -74,6 +74,7 @@ export default class RNTesterPage extends React.Component<Props> {
 const styles = {
   container: {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
+    // backgroundColor: new Color('purple'),
     backgroundColor: new Color('#e9eaed'),
     flexGrow: 1,
   },

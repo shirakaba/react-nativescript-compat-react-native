@@ -38,7 +38,7 @@ export default class RNTesterPage extends React.Component<Props> {
     const title = this.props.title ? (
       <RNTesterTitle title={this.props.title} />
       ) : null;
-      const spacer = this.props.noSpacer ? null : <RCTContentView style={styles.spacer} />;
+      const spacer = this.props.noSpacer ? null : <RCTFlexboxLayout style={styles.spacer} />;
 
       const ToLayout = (
         <RCTFlexboxLayout style={styles.wrapper}>
@@ -76,11 +76,10 @@ const styles = {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
     backgroundColor: new Color('#e9eaed'),
     flexGrow: 1,
-    // width: { value: 100, unit: "%" as "%" },
-    // height: { value: 100, unit: "%" as "%" },
   },
   spacer: {
-    height: 270,
+    flexDirection: 'column' as 'column', /* RN defaults to column. */
+    height: { value: 270, unit: "px" as "px" },
   },
   wrapper: {
     flexDirection: 'column' as 'column', /* RN defaults to column. */

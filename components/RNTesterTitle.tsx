@@ -39,7 +39,7 @@ const styles = {
     borderColor: new Color('#d6d7da'),
     margin: 10,
     marginBottom: 0,
-    height: 45,
+    height: { value: 45, unit: "px" as "px" },
     padding: 10,
     backgroundColor: new Color('white'),
   },

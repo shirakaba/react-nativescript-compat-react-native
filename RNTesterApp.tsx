@@ -71,7 +71,7 @@ const Header = ({ onBack, title }: { onBack?: () => any, title: string }) => {
         ) : (
           null
           // <RCTFlexboxLayout style={styles.headerLeft}>
-          //   <RCTButton className={""} text="Unavailable" />
+          //   {/* <RCTButton className={""} text="Unavailable" /> */}
           // </RCTFlexboxLayout>
         )}
         <RCTFlexboxLayout style={styles.headerCenter}>
@@ -198,7 +198,6 @@ const styles = {
     backgroundColor: new Color('#F5F5F6'),
   },
   header: {
-    // flexGrow: 1,
     height: 40,
     flexDirection: 'row' as 'row',
   },
@@ -208,7 +207,7 @@ const styles = {
   headerCenter: {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
     flexGrow: 1,
-    position: 'absolute' as 'absolute',
+    // position: 'absolute' as 'absolute',
     paddingTop: 7,
     // top: 7,
     // left: 0,

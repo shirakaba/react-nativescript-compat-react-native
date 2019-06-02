@@ -156,6 +156,9 @@ export default class RNTesterExampleList extends React.Component<
                         
                         return (
                             <RCTListView
+                                _debug={{
+                                    logLevel: "debug"
+                                }}
                                 style={styles.list}
                                 items={filteredData}
                                 cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, container: ContentView) => {

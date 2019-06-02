@@ -211,6 +211,7 @@ const styles = {
   headerCenter: {
     flexDirection: 'column' as 'column', /* RN defaults to column. */
     flexGrow: 1,
+    /* We need this property to center the title despite the back button appearing, but unfortunately it's only available via an AbsoluteLayout... */
     // position: 'absolute' as 'absolute',
     paddingTop: 7,
     // top: 7,

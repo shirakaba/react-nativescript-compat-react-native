@@ -32,6 +32,7 @@ import {
 } from "react-nativescript/dist/index";
 import { Color } from "tns-core-modules/color/color";
 import { autocapitalizationTypeProperty, EventData } from "tns-core-modules/ui/editable-text-base/editable-text-base";
+import { TextField } from "react-nativescript/dist/client/ElementRegistry";
 
 // const {StyleSheet, TextInput, View} = require('react-native');
 
@@ -48,7 +49,13 @@ type State = {
 };
 
 export default class RNTesterExampleFilter extends React.Component<Props, State> {
-  state = {filter: ''};
+  constructor(props: Props){
+    super(props);
+
+    this.state = {
+      filter: ''
+    };
+  }
 
   render() {
     const filterText = this.state.filter;
@@ -80,29 +87,30 @@ export default class RNTesterExampleFilter extends React.Component<Props, State>
     );
   }
 
+  private readonly onTextChange: (data: EventData) => void = (data: EventData) => {
+    const text: string = (data.object as TextField).text;
+    console.log(`TextField property change`, text);
+    this.setState(() => ({ filter: text }));
+  };
+
   _renderTextInput(): React.ReactElement<any> {
     if (this.props.disableSearch) {
       return null;
     }
     return (
       <RCTFlexboxLayout style={styles.searchRow}>
-        <RCTTextView
+        <RCTTextField
           autocapitalizationType={"none"}
           autocorrect={false}
         //   clearButtonMode="always"
-          onPropertyChange={(data: EventData) => {
-              // TODO: try to catch text change event.
-              console.log(`TextView property change`, data);
-              // this.setState(() => ({filter: text}));
-          }}
-        //   onChangeText={text => {
-        //     this.setState(() => ({filter: text}));
-        //   }}
+          onTextChange={this.onTextChange}
         //   placeholder="Search..."
         //   underlineColorAndroid="transparent"
           style={styles.searchTextInput}
         //   testID={this.props.testID}
-          text={this.state.filter}
+
+          /* Redundant in NativeScript? */
+          // text={this.state.filter}
         />
       </RCTFlexboxLayout>
     );

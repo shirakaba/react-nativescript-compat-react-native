@@ -39,7 +39,7 @@ import { TextField } from "react-nativescript/dist/client/ElementRegistry";
 type Props = {
   filter: Function,
   render: Function,
-  sections: any[],
+  sections: { data: any[], title: string, key: string }[],
   disableSearch?: boolean,
   testID?: string,
 };

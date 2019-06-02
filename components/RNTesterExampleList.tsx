@@ -109,7 +109,9 @@ export default class RNTesterExampleList extends React.Component<
         // && (!Platform.isTV || example.supportsTVOS);
 
         // TODO: support sections
-        const sections = [
+        type SectionData = any;
+        type Section = { data: SectionData[], title: string, key: string };
+        const sections: Section[] = [
             {
                 data: this.props.list.ComponentExamples,
                 title: 'COMPONENTS',
@@ -134,39 +136,58 @@ export default class RNTesterExampleList extends React.Component<
                     testID="explorer_search"
                     sections={sections}
                     filter={filter}
-                    render={({filteredSections}) => (
-                        <RCTListView
-                            style={styles.list}
-                            items={this.props.list.ComponentExamples.concat(this.props.list.APIExamples)}
-                            cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, container: ContentView) => {
-                                console.log(`[RNTesterExampleList.RNTesterExampleList.RCTListView] rendering item with key: ${item.key} and module: ${item.module}`);
+                    render={({filteredSections}) => {
+                        /* We don't have a SectionedList, so we'll flatten all the Sections by just collecting their SectionData. */
+                        const filteredData: SectionData[] = (filteredSections as Section[]).reduce(
+                            (acc: SectionData[], filteredSection: Section) => {
+                                return acc.concat(filteredSection.data);
+                            },
+                            []
+                        );
+                        console.log(`[RNTesterExampleList.RNTesterExampleList.RNTesterExampleFilter] got filteredSections: ${JSON.stringify(filteredSections)}, which we reduce to filteredData: ${JSON.stringify(filteredData)}`);
 
-                                container.backgroundColor = styles.sectionListContentContainer.backgroundColor;
+                        // FIXME: ListView crashes if it is instantiated with size 0 (and presumably if it drops to that size).
+                        // item.key (maybe item itself) is found to be undefined in the cellFactory() call.
+                        if(filteredData.length === 0){
+                            return (
+                                <RCTLabel>No matching items!</RCTLabel>
+                            );
+                        }
+                        
+                        return (
+                            <RCTListView
+                                style={styles.list}
+                                items={filteredData}
+                                cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, container: ContentView) => {
+                                    console.log(`[RNTesterExampleList.RNTesterExampleList.RCTListView] rendering item with key: ${item.key} and module: ${item.module}`);
 
-                                return this._renderItem({
-                                    item,
-                                    // separators: {
-                                    //     highlight: () => {},
-                                    //     unhighlight: () => {},
-                                    // }
-                                });
-                            }}
-                        />
-                        // TODO: support sectioned list
-                        // <SectionList
-                        //     ItemSeparatorComponent={ItemSeparator}
-                        //     contentContainerStyle={styles.sectionListContentContainer}
-                        //     style={styles.list}
-                        //     sections={filteredSections}
-                        //     renderItem={this._renderItem}
-                        //     enableEmptySections={true}
-                        //     itemShouldUpdate={this._itemShouldUpdate}
-                        //     keyboardShouldPersistTaps="handled"
-                        //     automaticallyAdjustContentInsets={false}
-                        //     keyboardDismissMode="on-drag"
-                        //     renderSectionHeader={renderSectionHeader}
-                        // />
-                    )}
+                                    container.backgroundColor = styles.sectionListContentContainer.backgroundColor;
+
+                                    return this._renderItem({
+                                        item,
+                                        // separators: {
+                                        //     highlight: () => {},
+                                        //     unhighlight: () => {},
+                                        // }
+                                    });
+                                }}
+                            />
+                            // TODO: support sectioned list
+                            // <SectionList
+                            //     ItemSeparatorComponent={ItemSeparator}
+                            //     contentContainerStyle={styles.sectionListContentContainer}
+                            //     style={styles.list}
+                            //     sections={filteredSections}
+                            //     renderItem={this._renderItem}
+                            //     enableEmptySections={true}
+                            //     itemShouldUpdate={this._itemShouldUpdate}
+                            //     keyboardShouldPersistTaps="handled"
+                            //     automaticallyAdjustContentInsets={false}
+                            //     keyboardDismissMode="on-drag"
+                            //     renderSectionHeader={renderSectionHeader}
+                            // />
+                        )
+                    }}
                 />
             </RCTFlexboxLayout>
         );

@@ -40,7 +40,9 @@ export const framework: string = 'React';
 export const title: string = '<Button>';
 export const description: string = 'Simple React Native button component.';
 
-export const examples: { title: string, description: string, render: () => any }[] = [
+type Example = { title: string, description?: string, render: () => any };
+
+export const examples: Example[] = [
   {
     title: 'Simple Button',
     description:

@@ -157,11 +157,11 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     module: require('../examples/TransparentHitTest/TransparentHitTestExample'),
 //     supportsTVOS: false,
 //   },
-//   {
-//     key: 'ViewExample',
-//     module: require('../examples/View/ViewExample'),
-//     supportsTVOS: true,
-//   },
+  {
+    key: 'ViewExample',
+    module: require('../examples/View/ViewExample'),
+    supportsTVOS: true,
+  },
 ];
 
 const APIExamples: Array<RNTesterExample> = [
@@ -330,7 +330,7 @@ const APIExamples: Array<RNTesterExample> = [
 const Modules = {};
 
 APIExamples.concat(ComponentExamples).forEach(Example => {
-  console.log(`Iterating example: ${Example.key}. Its module:`, Example.module);
+  console.log(`[ios] Iterating example: ${Example.key}. Its module:`, Example.module);
   Modules[Example.key] = Example.module;
 });
 

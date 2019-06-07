@@ -98,10 +98,10 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     key: 'TouchableExample',
 //     module: require('../examples/Touchable/TouchableExample'),
 //   },
-//   {
-//     key: 'ViewExample',
-//     module: require('../examples/View/ViewExample'),
-//   },
+  {
+    key: 'ViewExample',
+    module: require('../examples/View/ViewExample'),
+  },
 //   {
 //     key: 'ViewPagerAndroidExample',
 //     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
@@ -234,6 +234,7 @@ const APIExamples: Array<RNTesterExample> = [
 const Modules = {};
 
 APIExamples.concat(ComponentExamples).forEach(Example => {
+  console.log(`[android] Iterating example: ${Example.key}. Its module:`, Example.module);
   Modules[Example.key] = Example.module;
 });
 

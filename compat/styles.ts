@@ -29,7 +29,8 @@ import { ObservableComponentProps } from "react-nativescript/dist/components/Obs
 import { ViewBaseComponentProps } from "react-nativescript/dist/components/ViewBase";
 import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
-type ComponentPropsWithPermissiveStyle<T extends ObservableComponentProps> = Omit<T, "style"> & { style?: Partial<PermissiveStyle> };
+type Point = { top?: number, left?: number, right?: number, bottom?: number };
+type ComponentPropsWithPermissiveStyle<T extends ObservableComponentProps> = (Omit<T, "style"> & { style?: Partial<PermissiveStyle> }); // & Point;
 type RNGestureHandlerProps = {
     onPress?: (...args: any[]) => void;
 };
@@ -37,10 +38,24 @@ export type PermissiveComponentProps<T extends ObservableComponentProps> = Compo
 
 export function assembleProps(
     style: Partial<PermissiveStyle>|Partial<PermissiveStyle>[]|undefined,
-    gestureHandlers: RNGestureHandlerProps
+    gestureHandlers: RNGestureHandlerProps,
+    // { top, left, right, bottom }: Point,
 ){
+    const { top, left, bottom, right, ...trueStyles } = convertStyleRN2NS(style || {});
+
+    const point: Point = {};
+    if(typeof top !== "undefined") point.top = top;
+    if(typeof left !== "undefined") point.left = left;
+    if(typeof bottom !== "undefined") point.bottom = bottom;
+    if(typeof right !== "undefined") point.right = right;
+
     return {
-        ...(style ? convertStyleRN2NS(style) : {}),
+        ...point,
+        ...trueStyles,
+        // ...(top ? { top: mapLengthRN2NS("top", top, false) } : {} ),
+        // ...(left ? { left: mapLengthRN2NS("left", left, false) } : {} ),
+        // ...(bottom ? { bottom: mapLengthRN2NS("bottom", bottom, false) } : {} ),
+        // ...(right ? { right: mapLengthRN2NS("right", right, false) } : {} ),
         ...gestureHandlers,
     }
 }
@@ -62,7 +77,7 @@ export function mapGestureHandlerRN2NS(name: string, value: (...args: any[]) => 
     }
 }
 
-export function convertStyleRN2NS(styles: Partial<PermissiveStyle>|Partial<PermissiveStyle>[]): Partial<StylePropContents> {
+export function convertStyleRN2NS(styles: Partial<PermissiveStyle>|Partial<PermissiveStyle>[]): Partial<StylePropContents> & Point {
     const style: Partial<PermissiveStyle> = flattenStyle(styles);
 
     Object.keys(style).forEach((name: string) => {
@@ -85,6 +100,38 @@ export function flattenStyle(styles: Partial<PermissiveStyle>|Partial<Permissive
 
 export function mapStyleRN2NS(name: string, value: string): Record<string, any>|null {
     switch(name){
+        // Only available on as a LayoutBase prop.
+        case "position":
+            return null;
+        // https://facebook.github.io/react-native/docs/layout-props#direction
+        // Not sure what this would map to in NS.
+        case "direction":
+            return null;
+        case "fontWeight":
+            let fontWeight;
+            switch(value){
+                case "thin":
+                    fontWeight = FontWeight.thin; // 100
+                case "extraLight":
+                    fontWeight = FontWeight.extraLight; // 200
+                case "light":
+                    fontWeight = FontWeight.light; // 300
+                case "normal":
+                    fontWeight = FontWeight.normal; // 400
+                case "medium":
+                    fontWeight = FontWeight.medium; // 500
+                case "semiBold":
+                    fontWeight = FontWeight.semiBold; // 600
+                case "bold":
+                    fontWeight = FontWeight.bold; // 700
+                case "extraBold":
+                    fontWeight = FontWeight.extraBold; // 800
+                case "black":
+                    fontWeight = FontWeight.black; // 900
+                default:
+                    fontWeight = FontWeight.normal; // I don't have the motivation to support in-between values.
+            }
+            return { [name]: fontWeight };
         case "textAlign":
             return value === "justify" ? null : { "textAlignment": value }; // "justify" not supported.
         case "textDecorationLine":
@@ -144,6 +191,11 @@ export function mapStyleRN2NS(name: string, value: string): Record<string, any>|
         case "paddingTop":
         case "paddingRight":
         case "paddingBottom":
+
+        case "top":
+        case "left":
+        case "right":
+        case "bottom":
             return { [name]: mapLengthRN2NS(name, value, false) };
         /* strings allowed */
         case "padding":
@@ -229,6 +281,14 @@ interface StringyLengths {
     paddingBottom: string;
 }
 interface RNOnlyStyles {
+    /* These are all properties rather than styles in {N} */
+    top: number,
+    left: number,
+    right: number,
+    bottom: number,
+
+    position: "absolute"|"relative",
+    direction: "inherit" | "ltr" | "rtl", // Technically ios-only, according to @types/react-native
     marginVertical: number,
     marginHorizontal: number,
     textAlign: "initial" | "left" | "center" | "right" | "justify",
@@ -236,4 +296,4 @@ interface RNOnlyStyles {
     textDecorationStyle: "solid" | "double" | "dashed" | "dotted",
     textDecorationColor: string,
 }
-export type PermissiveStyle = StylePropContents | StringyColors | StringyLengths | RNOnlyStyles;
+export type PermissiveStyle = StylePropContents | StringyColors | StringyLengths | RNOnlyStyles | { fontWeight: string };

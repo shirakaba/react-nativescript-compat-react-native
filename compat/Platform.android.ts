@@ -1,4 +1,5 @@
 /**
+ * https://facebook.github.io/react-native/docs/platform-specific-code.html
  * https://github.com/facebook/react-native/blob/7fd08e146184432731ec5d5ba210e352690dc569/Libraries/Utilities/Platform.android.js
  * Copyright (c) Facebook, Inc. and its affiliates.
  *

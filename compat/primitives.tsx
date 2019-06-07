@@ -27,6 +27,7 @@ import { TextViewComponentProps } from "react-nativescript/dist/components/TextV
 import { StylePropContents } from "react-nativescript/dist/shared/NativeScriptComponentTypings";
 import { flattenStyle, PermissiveStyle, convertStyleRN2NS, PermissiveComponentProps, assembleProps } from "./styles";
 import { ButtonComponentProps } from "react-nativescript/dist/components/Button";
+import { TextFieldComponentProps } from "react-nativescript/dist/components/TextField";
 
 type PermissiveFlexboxLayoutComponentProps = PermissiveComponentProps<FlexboxLayoutComponentProps>;
 export const View: React.SFC<PermissiveFlexboxLayoutComponentProps> = (props: PermissiveFlexboxLayoutComponentProps) => {
@@ -39,6 +40,9 @@ export const View: React.SFC<PermissiveFlexboxLayoutComponentProps> = (props: Pe
 };
 
 type PermissiveTextViewComponentProps = PermissiveComponentProps<TextViewComponentProps> & {
+    multiline?: boolean,
+    adjustsFontSizeToFit?: boolean,
+    selectable?: boolean,
     ellipsizeMode?: "tail"|"middle"|"head"|"clip",
     numberOfLines?: number,
 };
@@ -46,12 +50,40 @@ export const Text: React.SFC<PermissiveTextViewComponentProps> = (props: Permiss
     const {
         style,
         onPress,
+        multiline,
+        adjustsFontSizeToFit, // Not supported in {N}?
+        selectable, // Not supported in {N}?
         ellipsizeMode, // Not supported in {N}.
         numberOfLines, // Not supported in {N}.
         ...rest
     } = props;
     
     return (<RCTTextView
+                {...assembleProps(style, { onPress, })}
+                {...rest}
+            />);
+};
+
+type PermissiveTextFieldComponentProps = PermissiveComponentProps<TextFieldComponentProps> & {
+    multiline?: boolean,
+    adjustsFontSizeToFit?: boolean,
+    selectable?: boolean,
+    ellipsizeMode?: "tail"|"middle"|"head"|"clip",
+    numberOfLines?: number,
+};
+export const TextInput: React.SFC<PermissiveTextFieldComponentProps> = (props: PermissiveTextFieldComponentProps) => {
+    const {
+        style,
+        onPress,
+        multiline,
+        adjustsFontSizeToFit, // Not supported in {N}?
+        selectable, // Not supported in {N}?
+        ellipsizeMode, // Not supported in {N}.
+        numberOfLines, // Not supported in {N}.
+        ...rest
+    } = props;
+    
+    return (<RCTTextField
                 {...assembleProps(style, { onPress, })}
                 {...rest}
             />);

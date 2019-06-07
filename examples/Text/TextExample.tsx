@@ -38,7 +38,7 @@ import { FlexboxLayoutComponentProps } from "react-nativescript/dist/components/
 import { TextViewComponentProps } from "react-nativescript/dist/components/TextView";
 import { StylePropContents } from "react-nativescript/dist/shared/NativeScriptComponentTypings";
 
-import { View, Text, Button } from "../../compat/primitives";
+import { View, Text, Button, TextInput } from "../../compat/primitives";
 const Platform = require("../../compat/platform");
 
 // const React = require('react');
@@ -361,7 +361,7 @@ class TextBaseLineLayoutExample extends React.Component<{}, {}> {
   }
 }
 
-class TextRenderInfoExample extends React.Component<*, *> {
+class TextRenderInfoExample extends React.Component<{}, {}> {
   state = {
     textMetrics: {
       x: 0,
@@ -445,7 +445,7 @@ class TextRenderInfoExample extends React.Component<*, *> {
   }
 }
 
-class TextWithCapBaseBox extends React.Component<*, *> {
+class TextWithCapBaseBox extends React.Component<{}, {}> {
   state = {
     textMetrics: {
       x: 0,

@@ -39,6 +39,7 @@ import { TextViewComponentProps } from "react-nativescript/dist/components/TextV
 import { StylePropContents } from "react-nativescript/dist/shared/NativeScriptComponentTypings";
 
 import { View, Text, Button, TextInput } from "../../compat/primitives";
+import { PermissiveStyle } from "../../compat/styles";
 const Platform = require("../../compat/platform");
 
 // const React = require('react');
@@ -51,20 +52,20 @@ const Platform = require("../../compat/platform");
 //   View,
 // } = require('react-native');
 
-const TextAncestor = require('../../../../Libraries/Text/TextAncestor');
-const TextInlineView = require('../../components/TextInlineView');
-const TextLegend = require('../../components/TextLegend');
+// const TextAncestor = require('../../../../Libraries/Text/TextAncestor');
+// const TextInlineView = require('../../components/TextInlineView');
+// const TextLegend = require('../../components/TextLegend');
 
-// TODO: Is there a cleaner way to flip the TextAncestor value to false? I
-//   suspect apps won't even be able to leverage this workaround because
-//   TextAncestor is not public.
-function InlineView(props) {
-  return (
-    <TextAncestor.Provider value={false}>
-      <View {...props} />
-    </TextAncestor.Provider>
-  );
-}
+/* TODO (FB): Is there a cleaner way to flip the TextAncestor value to false? I
+ *   suspect apps won't even be able to leverage this workaround because
+ *   TextAncestor is not public. */
+// function InlineView(props) {
+//   return (
+//     <TextAncestor.Provider value={false}>
+//       <View {...props} />
+//     </TextAncestor.Provider>
+//   );
+// }
 
 type TextAlignExampleRTLState = {
   isRTL: boolean,
@@ -171,121 +172,121 @@ class AttributeToggler extends React.Component<{}, {}> {
   }
 }
 
-type AdjustingFontSizeProps = {};
+// type AdjustingFontSizeProps = {};
 
-type AdjustingFontSizeState = {
-  dynamicText: string,
-  shouldRender: boolean,
-};
+// type AdjustingFontSizeState = {
+//   dynamicText: string,
+//   shouldRender: boolean,
+// };
 
-class AdjustingFontSize extends React.Component<
-  AdjustingFontSizeProps,
-  AdjustingFontSizeState,
-> {
-  state = {
-    dynamicText: '',
-    shouldRender: true,
-  };
+// class AdjustingFontSize extends React.Component<
+//   AdjustingFontSizeProps,
+//   AdjustingFontSizeState,
+// > {
+//   state = {
+//     dynamicText: '',
+//     shouldRender: true,
+//   };
 
-  reset = () => {
-    LayoutAnimation.easeInEaseOut();
-    this.setState({
-      shouldRender: false,
-    });
-    setTimeout(() => {
-      LayoutAnimation.easeInEaseOut();
-      this.setState({
-        dynamicText: '',
-        shouldRender: true,
-      });
-    }, 300);
-  };
+//   reset = () => {
+//     LayoutAnimation.easeInEaseOut();
+//     this.setState({
+//       shouldRender: false,
+//     });
+//     setTimeout(() => {
+//       LayoutAnimation.easeInEaseOut();
+//       this.setState({
+//         dynamicText: '',
+//         shouldRender: true,
+//       });
+//     }, 300);
+//   };
 
-  addText = () => {
-    this.setState({
-      dynamicText:
-        this.state.dynamicText +
-        (Math.floor((Math.random() * 10) % 2) ? ' foo' : ' bar'),
-    });
-  };
+//   addText = () => {
+//     this.setState({
+//       dynamicText:
+//         this.state.dynamicText +
+//         (Math.floor((Math.random() * 10) % 2) ? ' foo' : ' bar'),
+//     });
+//   };
 
-  removeText = () => {
-    this.setState({
-      dynamicText: this.state.dynamicText.slice(
-        0,
-        this.state.dynamicText.length - 4,
-      ),
-    });
-  };
+//   removeText = () => {
+//     this.setState({
+//       dynamicText: this.state.dynamicText.slice(
+//         0,
+//         this.state.dynamicText.length - 4,
+//       ),
+//     });
+//   };
 
-  render() {
-    if (!this.state.shouldRender) {
-      return <View />;
-    }
-    return (
-      <View>
-        <Text
-          ellipsizeMode="tail"
-          numberOfLines={1}
-          style={{fontSize: 36, marginVertical: 6}}>
-          Truncated text is baaaaad.
-        </Text>
-        <Text
-          numberOfLines={1}
-          adjustsFontSizeToFit={true}
-          style={{fontSize: 40, marginVertical: 6}}>
-          Shrinking to fit available space is much better!
-        </Text>
+//   render() {
+//     if (!this.state.shouldRender) {
+//       return <View />;
+//     }
+//     return (
+//       <View>
+//         <Text
+//           ellipsizeMode="tail"
+//           numberOfLines={1}
+//           style={{fontSize: 36, marginVertical: 6}}>
+//           Truncated text is baaaaad.
+//         </Text>
+//         <Text
+//           numberOfLines={1}
+//           adjustsFontSizeToFit={true}
+//           style={{fontSize: 40, marginVertical: 6}}>
+//           Shrinking to fit available space is much better!
+//         </Text>
 
-        <Text
-          adjustsFontSizeToFit={true}
-          numberOfLines={1}
-          style={{fontSize: 30, marginVertical: 6}}>
-          {'Add text to me to watch me shrink!' + ' ' + this.state.dynamicText}
-        </Text>
+//         <Text
+//           adjustsFontSizeToFit={true}
+//           numberOfLines={1}
+//           style={{fontSize: 30, marginVertical: 6}}>
+//           {'Add text to me to watch me shrink!' + ' ' + this.state.dynamicText}
+//         </Text>
 
-        <Text
-          adjustsFontSizeToFit={true}
-          numberOfLines={4}
-          style={{fontSize: 20, marginVertical: 6}}>
-          {'Multiline text component shrinking is supported, watch as this reeeeaaaally loooooong teeeeeeext grooooows and then shriiiinks as you add text to me! ioahsdia soady auydoa aoisyd aosdy ' +
-            ' ' +
-            this.state.dynamicText}
-        </Text>
+//         <Text
+//           adjustsFontSizeToFit={true}
+//           numberOfLines={4}
+//           style={{fontSize: 20, marginVertical: 6}}>
+//           {'Multiline text component shrinking is supported, watch as this reeeeaaaally loooooong teeeeeeext grooooows and then shriiiinks as you add text to me! ioahsdia soady auydoa aoisyd aosdy ' +
+//             ' ' +
+//             this.state.dynamicText}
+//         </Text>
 
-        <Text
-          adjustsFontSizeToFit={true}
-          numberOfLines={1}
-          style={{marginVertical: 6}}>
-          <Text style={{fontSize: 14}}>
-            {'Differently sized nested elements will shrink together. '}
-          </Text>
-          <Text style={{fontSize: 20}}>
-            {'LARGE TEXT! ' + this.state.dynamicText}
-          </Text>
-        </Text>
+//         <Text
+//           adjustsFontSizeToFit={true}
+//           numberOfLines={1}
+//           style={{marginVertical: 6}}>
+//           <Text style={{fontSize: 14}}>
+//             {'Differently sized nested elements will shrink together. '}
+//           </Text>
+//           <Text style={{fontSize: 20}}>
+//             {'LARGE TEXT! ' + this.state.dynamicText}
+//           </Text>
+//         </Text>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: 5,
-            marginVertical: 6,
-          }}>
-          <Text style={{backgroundColor: '#ffaaaa'}} onPress={this.reset}>
-            Reset
-          </Text>
-          <Text style={{backgroundColor: '#aaaaff'}} onPress={this.removeText}>
-            Remove Text
-          </Text>
-          <Text style={{backgroundColor: '#aaffaa'}} onPress={this.addText}>
-            Add Text
-          </Text>
-        </View>
-      </View>
-    );
-  }
-}
+//         <View
+//           style={{
+//             flexDirection: 'row',
+//             justifyContent: 'space-around',
+//             marginTop: 5,
+//             marginVertical: 6,
+//           }}>
+//           <Text style={{backgroundColor: '#ffaaaa'}} onPress={this.reset}>
+//             Reset
+//           </Text>
+//           <Text style={{backgroundColor: '#aaaaff'}} onPress={this.removeText}>
+//             Remove Text
+//           </Text>
+//           <Text style={{backgroundColor: '#aaffaa'}} onPress={this.addText}>
+//             Add Text
+//           </Text>
+//         </View>
+//       </View>
+//     );
+//   }
+// }
 
 class TextBaseLineLayoutExample extends React.Component<{}, {}> {
   render() {
@@ -445,7 +446,12 @@ class TextRenderInfoExample extends React.Component<{}, {}> {
   }
 }
 
-class TextWithCapBaseBox extends React.Component<{}, {}> {
+class TextWithCapBaseBox extends React.Component<
+    {
+        style: Partial<PermissiveStyle>
+    },
+    {}
+> {
   state = {
     textMetrics: {
       x: 0,
@@ -525,18 +531,18 @@ exports.examples = [
       return <TextRenderInfoExample />;
     },
   },
-  {
-    title: 'Text metrics legend',
-    render: () => <TextLegend />,
-  },
-  {
-    title: 'Baseline capheight box',
-    render: () => (
-      <View style={{backgroundColor: 'red'}}>
-        <TextWithCapBaseBox>Some example text.</TextWithCapBaseBox>
-      </View>
-    ),
-  },
+//   {
+//     title: 'Text metrics legend',
+//     render: () => <TextLegend />,
+//   },
+//   {
+//     title: 'Baseline capheight box',
+//     render: () => (
+//       <View style={{backgroundColor: 'red'}}>
+//         <TextWithCapBaseBox>Some example text.</TextWithCapBaseBox>
+//       </View>
+//     ),
+//   },
   {
     title: 'Padding',
     render: function() {
@@ -981,26 +987,26 @@ exports.examples = [
       );
     },
   },
-  {
-    title: 'Inline views',
-    render: () => <TextInlineView.Basic />,
-  },
-  {
-    title: 'Inline image/view clipped by <Text>',
-    render: () => <TextInlineView.ClippedByText />,
-  },
-  {
-    title: 'Relayout inline image',
-    render: () => <TextInlineView.ChangeImageSize />,
-  },
-  {
-    title: 'Relayout inline view',
-    render: () => <TextInlineView.ChangeViewSize />,
-  },
-  {
-    title: 'Relayout nested inline view',
-    render: () => <TextInlineView.ChangeInnerViewSize />,
-  },
+//   {
+//     title: 'Inline views',
+//     render: () => <TextInlineView.Basic />,
+//   },
+//   {
+//     title: 'Inline image/view clipped by <Text>',
+//     render: () => <TextInlineView.ClippedByText />,
+//   },
+//   {
+//     title: 'Relayout inline image',
+//     render: () => <TextInlineView.ChangeImageSize />,
+//   },
+//   {
+//     title: 'Relayout inline view',
+//     render: () => <TextInlineView.ChangeViewSize />,
+//   },
+//   {
+//     title: 'Relayout nested inline view',
+//     render: () => <TextInlineView.ChangeInnerViewSize />,
+//   },
   {
     title: 'Text shadow',
     render: function() {
@@ -1074,40 +1080,40 @@ exports.examples = [
       );
     },
   },
-  {
-    title: 'Nested content',
-    render: function() {
-      // iOS-only because it relies on inline views being able to size to content.
-      // Android's implementation requires that a width and height be specified
-      // on the inline view.
-      return (
-        <Text>
-          This text has a view
-          <InlineView style={{borderColor: 'red', borderWidth: 1}}>
-            <Text style={{borderColor: 'blue', borderWidth: 1}}>which has</Text>
-            <Text style={{borderColor: 'green', borderWidth: 1}}>
-              another text inside.
-            </Text>
-            <Text style={{borderColor: 'yellow', borderWidth: 1}}>
-              And moreover, it has another view
-              <InlineView style={{borderColor: 'red', borderWidth: 1}}>
-                <Text style={{borderColor: 'blue', borderWidth: 1}}>
-                  with another text inside!
-                </Text>
-              </InlineView>
-            </Text>
-          </InlineView>
-          Because we need to go deeper.
-        </Text>
-      );
-    },
-  },
-  {
-    title: 'Dynamic Font Size Adjustment',
-    render: function(): React.ReactElement<any> {
-      return <AdjustingFontSize />;
-    },
-  },
+//   {
+//     title: 'Nested content',
+//     render: function() {
+//       // iOS-only because it relies on inline views being able to size to content.
+//       // Android's implementation requires that a width and height be specified
+//       // on the inline view.
+//       return (
+//         <Text>
+//           This text has a view
+//           <InlineView style={{borderColor: 'red', borderWidth: 1}}>
+//             <Text style={{borderColor: 'blue', borderWidth: 1}}>which has</Text>
+//             <Text style={{borderColor: 'green', borderWidth: 1}}>
+//               another text inside.
+//             </Text>
+//             <Text style={{borderColor: 'yellow', borderWidth: 1}}>
+//               And moreover, it has another view
+//               <InlineView style={{borderColor: 'red', borderWidth: 1}}>
+//                 <Text style={{borderColor: 'blue', borderWidth: 1}}>
+//                   with another text inside!
+//                 </Text>
+//               </InlineView>
+//             </Text>
+//           </InlineView>
+//           Because we need to go deeper.
+//         </Text>
+//       );
+//     },
+//   },
+//   {
+//     title: 'Dynamic Font Size Adjustment',
+//     render: function(): React.ReactElement<any> {
+//       return <AdjustingFontSize />;
+//     },
+//   },
   {
     title: 'Text Align with RTL',
     render: function() {

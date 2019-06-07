@@ -30,7 +30,7 @@ import { ViewBaseComponentProps } from "react-nativescript/dist/components/ViewB
 import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
 type Point = { top?: number, left?: number, right?: number, bottom?: number };
-type ComponentPropsWithPermissiveStyle<T extends ObservableComponentProps> = (Omit<T, "style"> & { style?: Partial<PermissiveStyle> }); // & Point;
+type ComponentPropsWithPermissiveStyle<T extends ObservableComponentProps> = (Omit<T, "style"> & { style?: Partial<PermissiveStyle>|Partial<PermissiveStyle>[] }); // & Point;
 type RNGestureHandlerProps = {
     onPress?: (...args: any[]) => void;
 };
@@ -39,7 +39,6 @@ export type PermissiveComponentProps<T extends ObservableComponentProps> = Compo
 export function assembleProps(
     style: Partial<PermissiveStyle>|Partial<PermissiveStyle>[]|undefined,
     gestureHandlers: RNGestureHandlerProps,
-    // { top, left, right, bottom }: Point,
 ){
     const { top, left, bottom, right, ...trueStyles } = convertStyleRN2NS(style || {});
 
@@ -52,10 +51,6 @@ export function assembleProps(
     return {
         ...point,
         ...trueStyles,
-        // ...(top ? { top: mapLengthRN2NS("top", top, false) } : {} ),
-        // ...(left ? { left: mapLengthRN2NS("left", left, false) } : {} ),
-        // ...(bottom ? { bottom: mapLengthRN2NS("bottom", bottom, false) } : {} ),
-        // ...(right ? { right: mapLengthRN2NS("right", right, false) } : {} ),
         ...gestureHandlers,
     }
 }
@@ -72,6 +67,9 @@ export function mapGestureHandlerRN2NS(name: string, value: (...args: any[]) => 
     switch(name){
         case "onPress":
             return { onTap: value as (args: GestureEventData) => void };
+        case "onTextLayout":
+            // Not supported
+            return {};
         default:
             return { [name]: value };
     }
@@ -100,6 +98,11 @@ export function flattenStyle(styles: Partial<PermissiveStyle>|Partial<Permissive
 
 export function mapStyleRN2NS(name: string, value: string): Record<string, any>|null {
     switch(name){
+        case "textShadowColor":
+        case "textShadowRadius":
+        case "textShadowOffset":
+        case "fontVariant":
+            return null;
         // Only available on as a LayoutBase prop.
         case "position":
             return null;
@@ -133,7 +136,7 @@ export function mapStyleRN2NS(name: string, value: string): Record<string, any>|
             }
             return { [name]: fontWeight };
         case "textAlign":
-            return value === "justify" ? null : { "textAlignment": value }; // "justify" not supported.
+            return (value === "justify" || value === "auto") ? null : { "textAlignment": value }; // "auto" and "justify" not supported.
         case "textDecorationLine":
             return { "textDecoration": value };
         // NativeScript text decorations can't be coloured nor styled, as far as I understand.
@@ -281,6 +284,11 @@ interface StringyLengths {
     paddingBottom: string;
 }
 interface RNOnlyStyles {
+    textShadowOffset: { width: number, height: number },
+    textShadowRadius: number,
+    textShadowColor: string,
+    fontVariant: string[],
+
     /* These are all properties rather than styles in {N} */
     top: number,
     left: number,
@@ -291,7 +299,7 @@ interface RNOnlyStyles {
     direction: "inherit" | "ltr" | "rtl", // Technically ios-only, according to @types/react-native
     marginVertical: number,
     marginHorizontal: number,
-    textAlign: "initial" | "left" | "center" | "right" | "justify",
+    textAlign: "auto"|"initial" | "left" | "center" | "right" | "justify",
     textDecorationLine: "none" | "underline" | "line-through" | "underline line-through",
     textDecorationStyle: "solid" | "double" | "dashed" | "dotted",
     textDecorationColor: string,

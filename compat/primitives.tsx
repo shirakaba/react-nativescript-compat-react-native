@@ -40,6 +40,9 @@ export const View: React.SFC<PermissiveFlexboxLayoutComponentProps> = (props: Pe
 };
 
 type PermissiveTextViewComponentProps = PermissiveComponentProps<TextViewComponentProps> & {
+    onTextLayout?: (...args: any[]) => void, // Instant for {N}?
+    suppressHighlighting?: boolean,
+    allowFontScaling?: boolean,
     multiline?: boolean,
     adjustsFontSizeToFit?: boolean,
     selectable?: boolean,
@@ -50,11 +53,17 @@ export const Text: React.SFC<PermissiveTextViewComponentProps> = (props: Permiss
     const {
         style,
         onPress,
+        onTextLayout,
+
+        /* Not supported in {N}? */
         multiline,
-        adjustsFontSizeToFit, // Not supported in {N}?
-        selectable, // Not supported in {N}?
-        ellipsizeMode, // Not supported in {N}.
-        numberOfLines, // Not supported in {N}.
+        suppressHighlighting,
+        allowFontScaling,
+        adjustsFontSizeToFit,
+        selectable,
+        ellipsizeMode,
+        numberOfLines,
+
         ...rest
     } = props;
     
@@ -65,6 +74,9 @@ export const Text: React.SFC<PermissiveTextViewComponentProps> = (props: Permiss
 };
 
 type PermissiveTextFieldComponentProps = PermissiveComponentProps<TextFieldComponentProps> & {
+    onTextLayout?: (...args: any[]) => void,
+    suppressHighlighting?: boolean,
+    allowFontScaling?: boolean,
     multiline?: boolean,
     adjustsFontSizeToFit?: boolean,
     selectable?: boolean,
@@ -75,11 +87,17 @@ export const TextInput: React.SFC<PermissiveTextFieldComponentProps> = (props: P
     const {
         style,
         onPress,
+        onTextLayout,
+
+        /* Not supported in {N}? */
         multiline,
-        adjustsFontSizeToFit, // Not supported in {N}?
-        selectable, // Not supported in {N}?
-        ellipsizeMode, // Not supported in {N}.
-        numberOfLines, // Not supported in {N}.
+        suppressHighlighting,
+        allowFontScaling,
+        adjustsFontSizeToFit,
+        selectable,
+        ellipsizeMode,
+        numberOfLines,
+
         ...rest
     } = props;
     

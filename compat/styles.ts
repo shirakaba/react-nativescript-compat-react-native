@@ -66,7 +66,13 @@ export function convertStyleRN2NS(styles: Partial<PermissiveStyle>|Partial<Permi
     const style: Partial<PermissiveStyle> = flattenStyle(styles);
 
     Object.keys(style).forEach((name: string) => {
-        style[name] = mapStyleRN2NS(name, style[name]);
+        const mapping = mapStyleRN2NS(name, style[name]);
+        delete style[name];
+        if(mapping === null) return; // Explicitly not supported.
+
+        Object.keys(mapping).forEach((key: string) => {
+            style[key] = mapping[key];
+        });
     });
 
     return style as Partial<StylePropContents>;
@@ -77,8 +83,16 @@ export function flattenStyle(styles: Partial<PermissiveStyle>|Partial<Permissive
     return Object.assign({}, ...styles);
 }
 
-export function mapStyleRN2NS(name: string, value: string): Color|Length|PercentLength {
+export function mapStyleRN2NS(name: string, value: string): Record<string, any>|null {
     switch(name){
+        case "textAlign":
+            return value === "justify" ? null : { "textAlignment": value }; // "justify" not supported.
+        case "textDecorationLine":
+            return { "textDecoration": value };
+        // NativeScript text decorations can't be coloured nor styled, as far as I understand.
+        case "textDecorationStyle":
+        case "textDecorationColor":
+            return null;
         case "color":
         case "tintColor":
         case "placeholderColor":
@@ -94,14 +108,26 @@ export function mapStyleRN2NS(name: string, value: string): Color|Length|Percent
         case "separatorColor":
         case "selectedBackgroundColor":
         case "androidStatusBarBackground":
-            return mapColorRN2NS(value);            
+            return { [name]: mapColorRN2NS(value) };
         case "width":
         case "height":
         case "marginLeft":
         case "marginTop":
         case "marginRight":
         case "marginBottom":
-            return mapLengthRN2NS(name, value, true);
+            return { [name]: mapLengthRN2NS(name, value, true) };
+        case "marginVertical":
+        case "marginHorizontal":
+            const mapped = mapLengthRN2NS(name, value, true);
+            return name === "marginVertical" ? 
+            {
+                "marginTop": mapped,
+                "marginBottom": mapped,
+            } : 
+            {
+                "marginLeft": mapped,
+                "marginRight": mapped,
+            };
         case "borderWidth":
         case "borderTopWidth":
         case "borderRightWidth":
@@ -118,14 +144,16 @@ export function mapStyleRN2NS(name: string, value: string): Color|Length|Percent
         case "paddingTop":
         case "paddingRight":
         case "paddingBottom":
-            return mapLengthRN2NS(name, value, false);
+            return { [name]: mapLengthRN2NS(name, value, false) };
         /* strings allowed */
         case "padding":
         case "margin":
         case "borderColor":
         case "borderWidth":
+            return { [name]: value };
         default:
-            return value as any;
+            /* We'll see how this goes... */
+            return { [name]: value };
     }
 }
 
@@ -200,4 +228,12 @@ interface StringyLengths {
     paddingRight: string;
     paddingBottom: string;
 }
-export type PermissiveStyle = StylePropContents | StringyColors | StringyLengths;
+interface RNOnlyStyles {
+    marginVertical: number,
+    marginHorizontal: number,
+    textAlign: "initial" | "left" | "center" | "right" | "justify",
+    textDecorationLine: "none" | "underline" | "line-through" | "underline line-through",
+    textDecorationStyle: "solid" | "double" | "dashed" | "dotted",
+    textDecorationColor: string,
+}
+export type PermissiveStyle = StylePropContents | StringyColors | StringyLengths | RNOnlyStyles;

@@ -37,7 +37,9 @@ import { LengthPxUnit, Length } from "tns-core-modules/ui/styling/style-properti
 import { FlexboxLayoutComponentProps } from "react-nativescript/dist/components/FlexboxLayout";
 import { TextViewComponentProps } from "react-nativescript/dist/components/TextView";
 import { StylePropContents } from "react-nativescript/dist/shared/NativeScriptComponentTypings";
+
 import { View, Text, Button } from "../../compat/primitives";
+const Platform = require("../../compat/platform");
 
 // const React = require('react');
 // const {
@@ -285,7 +287,7 @@ class AdjustingFontSize extends React.Component<
   }
 }
 
-class TextBaseLineLayoutExample extends React.Component<*, *> {
+class TextBaseLineLayoutExample extends React.Component<{}, {}> {
   render() {
     const texts = [];
     for (let i = 9; i >= 0; i--) {
@@ -873,7 +875,7 @@ exports.examples = [
   },
   {
     title: 'Toggling Attributes',
-    render: function(): React.Element<any> {
+    render: function(): React.ReactElement<any> {
       return <AttributeToggler />;
     },
   },
@@ -1102,7 +1104,7 @@ exports.examples = [
   },
   {
     title: 'Dynamic Font Size Adjustment',
-    render: function(): React.Element<any> {
+    render: function(): React.ReactElement<any> {
       return <AdjustingFontSize />;
     },
   },

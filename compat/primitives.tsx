@@ -38,9 +38,19 @@ export const View: React.SFC<PermissiveFlexboxLayoutComponentProps> = (props: Pe
             />);
 };
 
-type PermissiveTextViewComponentProps = PermissiveComponentProps<TextViewComponentProps>;
+type PermissiveTextViewComponentProps = PermissiveComponentProps<TextViewComponentProps> & {
+    ellipsizeMode?: "tail"|"middle"|"head"|"clip",
+    numberOfLines?: number,
+};
 export const Text: React.SFC<PermissiveTextViewComponentProps> = (props: PermissiveTextViewComponentProps) => {
-    const { style, onPress, ...rest } = props;
+    const {
+        style,
+        onPress,
+        ellipsizeMode, // Not supported in {N}.
+        numberOfLines, // Not supported in {N}.
+        ...rest
+    } = props;
+    
     return (<RCTTextView
                 {...assembleProps(style, { onPress, })}
                 {...rest}

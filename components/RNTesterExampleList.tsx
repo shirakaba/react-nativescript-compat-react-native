@@ -246,6 +246,7 @@ const styles = {
         flexGrow: 1,
     },
     list: {
+        flexGrow: 1,
         backgroundColor: new Color('#eeeeee'),
     },
     sectionHeader: {

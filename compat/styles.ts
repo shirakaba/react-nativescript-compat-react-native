@@ -29,6 +29,7 @@ import { ObservableComponentProps } from "react-nativescript/dist/components/Obs
 import { ViewBaseComponentProps } from "react-nativescript/dist/components/ViewBase";
 import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
 
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 type Point = { top?: number, left?: number, right?: number, bottom?: number };
 type ComponentPropsWithPermissiveStyle<T extends ObservableComponentProps> = (Omit<T, "style"> & { style?: Partial<PermissiveStyle>|Partial<PermissiveStyle>[] }); // & Point;
 type RNGestureHandlerProps = {

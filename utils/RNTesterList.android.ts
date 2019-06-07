@@ -82,12 +82,12 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     key: 'SwitchExample',
 //     module: require('../examples/Switch/SwitchExample'),
 //   },
-//   {
-//     key: 'TextExample',
-//     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-//      * when making Flow check .android.js files. */
-//     module: require('../examples/Text/TextExample'),
-//   },
+  {
+    key: 'TextExample',
+    /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
+     * when making Flow check .android.js files. */
+    module: require('../examples/Text/TextExample'),
+  },
 //   {
 //     key: 'TextInputExample',
 //     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found

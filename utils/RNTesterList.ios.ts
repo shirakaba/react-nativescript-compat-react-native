@@ -137,11 +137,11 @@ const ComponentExamples: Array<RNTesterExample> = [
 //     module: require('../examples/Switch/SwitchExample'),
 //     supportsTVOS: false,
 //   },
-  // {
-  //   key: 'TextExample',
-  //   module: require('../examples/Text/TextExample.ios'),
-  //   supportsTVOS: true,
-  // },
+  {
+    key: 'TextExample',
+    module: require('../examples/Text/TextExample'), // RN's own example is platform-specific
+    supportsTVOS: true,
+  },
 //   {
 //     key: 'TextInputExample',
 //     module: require('../examples/TextInput/TextInputExample.ios'),

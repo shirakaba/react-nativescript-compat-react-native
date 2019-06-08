@@ -114,22 +114,31 @@ export function mapStyleRN2NS(name: string, value: string): Record<string, any>|
         case "fontWeight":
             let fontWeight;
             switch(value){
+                case "100":
                 case "thin":
                     fontWeight = FontWeight.thin; // 100
+                case "200":
                 case "extraLight":
                     fontWeight = FontWeight.extraLight; // 200
+                case "300":
                 case "light":
                     fontWeight = FontWeight.light; // 300
+                case "400":
                 case "normal":
                     fontWeight = FontWeight.normal; // 400
+                case "500":
                 case "medium":
                     fontWeight = FontWeight.medium; // 500
+                case "600":
                 case "semiBold":
                     fontWeight = FontWeight.semiBold; // 600
+                case "700":
                 case "bold":
                     fontWeight = FontWeight.bold; // 700
+                case "800":
                 case "extraBold":
                     fontWeight = FontWeight.extraBold; // 800
+                case "900":
                 case "black":
                     fontWeight = FontWeight.black; // 900
                 default:

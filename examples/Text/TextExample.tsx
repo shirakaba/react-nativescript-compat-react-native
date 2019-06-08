@@ -532,18 +532,18 @@ export const examples: Example[] = [
       return <TextRenderInfoExample />;
     },
   },
-//   {
-//     title: 'Text metrics legend',
-//     render: () => <TextLegend />,
-//   },
-//   {
-//     title: 'Baseline capheight box',
-//     render: () => (
-//       <View style={{backgroundColor: 'red'}}>
-//         <TextWithCapBaseBox>Some example text.</TextWithCapBaseBox>
-//       </View>
-//     ),
-//   },
+// //   {
+// //     title: 'Text metrics legend',
+// //     render: () => <TextLegend />,
+// //   },
+// //   {
+// //     title: 'Baseline capheight box',
+// //     render: () => (
+// //       <View style={{backgroundColor: 'red'}}>
+// //         <TextWithCapBaseBox>Some example text.</TextWithCapBaseBox>
+// //       </View>
+// //     ),
+// //   },
   {
     title: 'Padding',
     render: function() {
@@ -988,26 +988,26 @@ export const examples: Example[] = [
       );
     },
   },
-//   {
-//     title: 'Inline views',
-//     render: () => <TextInlineView.Basic />,
-//   },
-//   {
-//     title: 'Inline image/view clipped by <Text>',
-//     render: () => <TextInlineView.ClippedByText />,
-//   },
-//   {
-//     title: 'Relayout inline image',
-//     render: () => <TextInlineView.ChangeImageSize />,
-//   },
-//   {
-//     title: 'Relayout inline view',
-//     render: () => <TextInlineView.ChangeViewSize />,
-//   },
-//   {
-//     title: 'Relayout nested inline view',
-//     render: () => <TextInlineView.ChangeInnerViewSize />,
-//   },
+// //   {
+// //     title: 'Inline views',
+// //     render: () => <TextInlineView.Basic />,
+// //   },
+// //   {
+// //     title: 'Inline image/view clipped by <Text>',
+// //     render: () => <TextInlineView.ClippedByText />,
+// //   },
+// //   {
+// //     title: 'Relayout inline image',
+// //     render: () => <TextInlineView.ChangeImageSize />,
+// //   },
+// //   {
+// //     title: 'Relayout inline view',
+// //     render: () => <TextInlineView.ChangeViewSize />,
+// //   },
+// //   {
+// //     title: 'Relayout nested inline view',
+// //     render: () => <TextInlineView.ChangeInnerViewSize />,
+// //   },
   {
     title: 'Text shadow',
     render: function() {
@@ -1081,52 +1081,52 @@ export const examples: Example[] = [
       );
     },
   },
-//   {
-//     title: 'Nested content',
-//     render: function() {
-//       // iOS-only because it relies on inline views being able to size to content.
-//       // Android's implementation requires that a width and height be specified
-//       // on the inline view.
-//       return (
-//         <Text>
-//           This text has a view
-//           <InlineView style={{borderColor: 'red', borderWidth: 1}}>
-//             <Text style={{borderColor: 'blue', borderWidth: 1}}>which has</Text>
-//             <Text style={{borderColor: 'green', borderWidth: 1}}>
-//               another text inside.
-//             </Text>
-//             <Text style={{borderColor: 'yellow', borderWidth: 1}}>
-//               And moreover, it has another view
-//               <InlineView style={{borderColor: 'red', borderWidth: 1}}>
-//                 <Text style={{borderColor: 'blue', borderWidth: 1}}>
-//                   with another text inside!
-//                 </Text>
-//               </InlineView>
-//             </Text>
-//           </InlineView>
-//           Because we need to go deeper.
-//         </Text>
-//       );
-//     },
-//   },
-//   {
-//     title: 'Dynamic Font Size Adjustment',
-//     render: function(): React.ReactElement<any> {
-//       return <AdjustingFontSize />;
-//     },
-//   },
+// //   {
+// //     title: 'Nested content',
+// //     render: function() {
+// //       // iOS-only because it relies on inline views being able to size to content.
+// //       // Android's implementation requires that a width and height be specified
+// //       // on the inline view.
+// //       return (
+// //         <Text>
+// //           This text has a view
+// //           <InlineView style={{borderColor: 'red', borderWidth: 1}}>
+// //             <Text style={{borderColor: 'blue', borderWidth: 1}}>which has</Text>
+// //             <Text style={{borderColor: 'green', borderWidth: 1}}>
+// //               another text inside.
+// //             </Text>
+// //             <Text style={{borderColor: 'yellow', borderWidth: 1}}>
+// //               And moreover, it has another view
+// //               <InlineView style={{borderColor: 'red', borderWidth: 1}}>
+// //                 <Text style={{borderColor: 'blue', borderWidth: 1}}>
+// //                   with another text inside!
+// //                 </Text>
+// //               </InlineView>
+// //             </Text>
+// //           </InlineView>
+// //           Because we need to go deeper.
+// //         </Text>
+// //       );
+// //     },
+// //   },
+// //   {
+// //     title: 'Dynamic Font Size Adjustment',
+// //     render: function(): React.ReactElement<any> {
+// //       return <AdjustingFontSize />;
+// //     },
+// //   },
   {
     title: 'Text Align with RTL',
     render: function() {
       return <TextAlignRTLExample />;
     },
   },
-  {
-    title: "Text `alignItems: 'baseline'` style",
-    render: function() {
-      return <TextBaseLineLayoutExample />;
-    },
-  },
+  // {
+  //   title: "Text `alignItems: 'baseline'` style",
+  //   render: function() {
+  //     return <TextBaseLineLayoutExample />;
+  //   },
+  // },
   {
     title: 'Transform',
     render: function() {

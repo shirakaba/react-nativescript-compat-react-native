@@ -30,7 +30,7 @@ import { ButtonComponentProps } from "react-nativescript/dist/components/Button"
 import { TextFieldComponentProps } from "react-nativescript/dist/components/TextField";
 
 type PermissiveFlexboxLayoutComponentProps = PermissiveComponentProps<FlexboxLayoutComponentProps>;
-export const View: React.SFC<PermissiveFlexboxLayoutComponentProps> = (props: PermissiveFlexboxLayoutComponentProps) => {
+export const View: React.FunctionComponent<PermissiveFlexboxLayoutComponentProps> = (props: PermissiveFlexboxLayoutComponentProps) => {
     const { style, onPress, ...rest } = props;
     return (<RCTFlexboxLayout
                 flexDirection={'column'}
@@ -49,7 +49,7 @@ type PermissiveTextViewComponentProps = PermissiveComponentProps<TextViewCompone
     ellipsizeMode?: "tail"|"middle"|"head"|"clip",
     numberOfLines?: number,
 };
-export const Text: React.SFC<PermissiveTextViewComponentProps> = (props: PermissiveTextViewComponentProps) => {
+export const Text: React.FunctionComponent<PermissiveTextViewComponentProps> = (props: React.PropsWithChildren<PermissiveTextViewComponentProps>) => {
     const {
         style,
         onPress,
@@ -63,7 +63,6 @@ export const Text: React.SFC<PermissiveTextViewComponentProps> = (props: Permiss
         selectable,
         ellipsizeMode,
         numberOfLines,
-
         ...rest
     } = props;
     
@@ -83,7 +82,7 @@ type PermissiveTextFieldComponentProps = PermissiveComponentProps<TextFieldCompo
     ellipsizeMode?: "tail"|"middle"|"head"|"clip",
     numberOfLines?: number,
 };
-export const TextInput: React.SFC<PermissiveTextFieldComponentProps> = (props: PermissiveTextFieldComponentProps) => {
+export const TextInput: React.FunctionComponent<PermissiveTextFieldComponentProps> = (props: React.PropsWithChildren<PermissiveTextFieldComponentProps>) => {
     const {
         style,
         onPress,
@@ -97,7 +96,6 @@ export const TextInput: React.SFC<PermissiveTextFieldComponentProps> = (props: P
         selectable,
         ellipsizeMode,
         numberOfLines,
-
         ...rest
     } = props;
     
@@ -108,7 +106,7 @@ export const TextInput: React.SFC<PermissiveTextFieldComponentProps> = (props: P
 };
 
 type PermissiveButtonComponentProps = PermissiveComponentProps<ButtonComponentProps> & { title?: string };
-export const Button: React.SFC<PermissiveButtonComponentProps> = (props: PermissiveButtonComponentProps) => {
+export const Button: React.FunctionComponent<PermissiveButtonComponentProps> = (props: React.PropsWithChildren<PermissiveButtonComponentProps>) => {
     const { style, onPress, title, ...rest } = props;
     return (<RCTButton
                 text={title}

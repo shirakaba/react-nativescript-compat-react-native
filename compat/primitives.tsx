@@ -98,7 +98,8 @@ export const Text: React.FunctionComponent<PermissiveTextViewComponentProps> = (
     /* Here's my very limited support for nesting children inside Text (which I don't like as a pattern anyway...) */
     if(React.Children.count(children) > 1){
         return (
-            <View>{nestTextChildren(children, { ...rest })}</View>
+            // RNTester seems to default to row direction in nested texts.
+            <View flexDirection={'row'}>{nestTextChildren(children, { ...rest })}</View>
         );
     } else {
         return (<RCTTextView
@@ -142,7 +143,8 @@ export const TextInput: React.FunctionComponent<PermissiveTextFieldComponentProp
     /* Here's my very limited support for nesting children inside Text (which I don't like as a pattern anyway...) */
     if(React.Children.count(children) > 1){
         return (
-            <View>{nestTextChildren(children, { ...rest })}</View>
+            // RNTester seems to default to row direction in nested texts.
+            <View flexDirection={'row'}>{nestTextChildren(children, { ...rest })}</View>
         );
     } else {
         return (<RCTTextField

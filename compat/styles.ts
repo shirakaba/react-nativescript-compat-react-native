@@ -168,7 +168,7 @@ export function mapStyleRN2NS(name: string, value: string): Record<string, any>|
         case "separatorColor":
         case "selectedBackgroundColor":
         case "androidStatusBarBackground":
-            return { [name]: mapColorRN2NS(value) };
+            return { [name]: mapColorRN2NS(name, value) };
         case "width":
         case "height":
         case "marginLeft":
@@ -223,8 +223,27 @@ export function mapStyleRN2NS(name: string, value: string): Record<string, any>|
 }
 
 // https://facebook.github.io/react-native/docs/colors
-export function mapColorRN2NS(color: string): Color {
-    return new Color(color);
+export function mapColorRN2NS(name: string, color: string): Color {
+    console.log(`[mapColorRN2NS] mapping Color: { "${name}": "${color}" }`);
+    /* Returning new Color(color) DOES work, as long as you don't do this pattern:
+
+        render(){
+            const marker = (<View style={{width: 20, height: 20, backgroundColor: 'gray' }} />);
+            return (
+                <View>
+                    {marker}
+                    {marker}
+                </View>
+            );
+        }
+
+        Re-using the 'marker' instance causes the Color instance to be shared, which leads to a crash.
+        NativeScript can actually take string colours directly if you ignore typings, which should also
+        generate unique underlying Color instances for each component, so we'll just use this method to
+        assert the typings.
+    */
+    // return new Color(color);
+    return color as any as Color;
 }
 
 // https://facebook.github.io/react-native/docs/height-and-width.html

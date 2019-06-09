@@ -226,7 +226,7 @@ export function mapStyleRN2NS(name: string, value: string): Record<string, any>|
 
 // https://facebook.github.io/react-native/docs/colors
 export function mapColorRN2NS(name: string, color: string): Color {
-    console.log(`[mapColorRN2NS] mapping Color: { "${name}": "${color}" }`);
+    // console.log(`[mapColorRN2NS] mapping Color: { "${name}": "${color}" }`);
     /* Returning new Color(color) DOES work, as long as you don't do this pattern:
 
         render(){

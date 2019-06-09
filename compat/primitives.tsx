@@ -39,6 +39,33 @@ export const View: React.FunctionComponent<PermissiveFlexboxLayoutComponentProps
             />);
 };
 
+function nestTextChildren(children: React.ReactNode, parentProps): React.ReactNode {
+    return React.Children.map(children, function(child: React.ReactNode, i: number){
+        if(typeof child === "string" || typeof child === "number"){
+            console.log(`[nestTextChildren] ReactText case`);
+            // ReactText case.
+            return (<Text>{child}</Text>);
+        } else if(typeof child === "undefined" || typeof child === "boolean" || child === null){
+            console.log(`[nestTextChildren] falsy or boolean case`);
+            return child;
+        } else if(Array.isArray(child)){
+            console.log(`[nestTextChildren] array case`);
+            // ReactFragment case.
+            // I'm not motivated to figure out the recursion for supporting ReactFragment, sorry...
+            return null;
+        } else {
+            const { children, ...rest } = (child as React.ReactElement).props;
+            console.log(`[nestTextChildren] default (ReactElement) case, with props`, { ...rest });
+            /* I'm assuming it's ReactElement at this point, but it could still be a ReactPortal | ReactFragment.
+             * May break in such case. */
+            // if((child as React.ReactElement).props){
+            //     Object.assign({}, (child as React.ReactElement).props, { ...parentProps });
+            // }
+            return child;
+        }
+    })
+}
+
 type PermissiveTextViewComponentProps = PermissiveComponentProps<TextViewComponentProps> & {
     onTextLayout?: (...args: any[]) => void, // Instant for {N}?
     suppressHighlighting?: boolean,
@@ -63,13 +90,24 @@ export const Text: React.FunctionComponent<PermissiveTextViewComponentProps> = (
         selectable,
         ellipsizeMode,
         numberOfLines,
+
+        children,
         ...rest
     } = props;
-    
-    return (<RCTTextView
-                {...assembleProps(style, { onPress, })}
-                {...rest}
-            />);
+
+    /* Here's my very limited support for nesting children inside Text (which I don't like as a pattern anyway...) */
+    if(React.Children.count(children) > 1){
+        return (
+            <View>{nestTextChildren(children, { ...rest })}</View>
+        );
+    } else {
+        return (<RCTTextView
+            {...assembleProps(style, { onPress, })}
+            {...rest}
+        >
+            {children}
+        </RCTTextView>);
+    }
 };
 
 type PermissiveTextFieldComponentProps = PermissiveComponentProps<TextFieldComponentProps> & {
@@ -96,13 +134,24 @@ export const TextInput: React.FunctionComponent<PermissiveTextFieldComponentProp
         selectable,
         ellipsizeMode,
         numberOfLines,
+
+        children,
         ...rest
     } = props;
-    
-    return (<RCTTextField
-                {...assembleProps(style, { onPress, })}
-                {...rest}
-            />);
+
+    /* Here's my very limited support for nesting children inside Text (which I don't like as a pattern anyway...) */
+    if(React.Children.count(children) > 1){
+        return (
+            <View>{nestTextChildren(children, { ...rest })}</View>
+        );
+    } else {
+        return (<RCTTextField
+            {...assembleProps(style, { onPress, })}
+            {...rest}
+        >
+            {children}
+        </RCTTextField>);
+    }
 };
 
 type PermissiveButtonComponentProps = PermissiveComponentProps<ButtonComponentProps> & { title?: string };

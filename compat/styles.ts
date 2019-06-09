@@ -78,8 +78,10 @@ export function mapGestureHandlerRN2NS(name: string, value: (...args: any[]) => 
 
 export function convertStyleRN2NS(styles: Partial<PermissiveStyle>|Partial<PermissiveStyle>[]): Partial<StylePropContents> & Point {
     const flattenedStyle: Partial<PermissiveStyle> = flattenStyle(styles);
+    const style: Partial<PermissiveStyle> = flattenedStyle;
+
     /* Here we shallow-clone the flattened style to avoid any objects sharing the same instance of e.g. FontWeight and Color. */
-    const style: Partial<PermissiveStyle> = { ...flattenedStyle };
+    // const style: Partial<PermissiveStyle> = { ...flattenedStyle };
 
     Object.keys(style).forEach((name: string) => {
         const mapping = mapStyleRN2NS(name, style[name]);

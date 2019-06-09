@@ -44,15 +44,15 @@ export default class RNTesterBlock extends React.Component<Props, State> {
 
     return (
       // TODO: Could probably collapse the ContentView down to the StackLayout
-      <RCTStackLayout style={styles.container}>
-        <RCTStackLayout style={styles.titleContainer}>
+      <RCTFlexboxLayout style={styles.container}>
+        <RCTFlexboxLayout style={styles.titleContainer}>
           <RCTLabel style={styles.titleText}>{this.props.title}</RCTLabel>
           {description}
-        </RCTStackLayout>
-        <RCTStackLayout style={styles.children}>
+        </RCTFlexboxLayout>
+        <RCTFlexboxLayout style={styles.children}>
           {this.props.children}
-        </RCTStackLayout>
-      </RCTStackLayout>
+        </RCTFlexboxLayout>
+      </RCTFlexboxLayout>
     );
   }
 }

@@ -38,6 +38,7 @@ import { ContentView } from "react-nativescript/dist/client/ElementRegistry";
 
 class RowComponent extends React.PureComponent<
     {
+        forwardedRef?: React.RefObject<any>,
         // Not clear what the actual schema is. May just be 'any'.
         item: {
             key?: string,
@@ -66,13 +67,16 @@ class RowComponent extends React.PureComponent<
     };
 
     render() {
-        const { item } = this.props;
+        const { item, forwardedRef } = this.props;
 
         console.log(`[RNTesterExampleList.RowComponent] render() with item from module ${item.module} entitled: ${item.module.title}`);
 
         return (
             <RCTFlexboxLayout
+                {...( forwardedRef ? { ref : forwardedRef } : {})}
                 style={styles.row}
+                /* TODO: find a way to translate this */
+                // style={styles.sectionListContentContainer}
                 onTap={this._onPress}
             >
                 <RCTLabel style={styles.rowTitleText}>{item.module.title}</RCTLabel>
@@ -161,13 +165,14 @@ export default class RNTesterExampleList extends React.Component<
                                 }}
                                 style={styles.list}
                                 items={filteredData}
-                                cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, container: ContentView) => {
+                                cellFactory={(item: { key: string, module: any, supportsTVOS?: boolean }, forwardedRef: React.RefObject<any>) => {
                                     console.log(`[RNTesterExampleList.RNTesterExampleList.RCTListView] rendering item with key: ${item.key} and module: ${item.module}`);
 
-                                    container.backgroundColor = styles.sectionListContentContainer.backgroundColor;
+                                    // container.backgroundColor = styles.sectionListContentContainer.backgroundColor;
 
                                     return this._renderItem({
                                         item,
+                                        forwardedRef,
                                         // separators: {
                                         //     highlight: () => {},
                                         //     unhighlight: () => {},
@@ -202,11 +207,13 @@ export default class RNTesterExampleList extends React.Component<
 
     _renderItem = ({
         item,
+        forwardedRef,
         // separators
     }) => {
         
         return (
             <RowComponent
+                forwardedRef={forwardedRef}
                 item={item}
                 onNavigate={this.props.onNavigate}
                 // onShowUnderlay={separators.highlight}
